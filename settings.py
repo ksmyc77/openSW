@@ -13,7 +13,7 @@ pygame.init()
 pygame.mixer.init()
 
 # 게임창 옵션 설정
-pygame.display.set_caption("Dino Advanture")
+pygame.display.set_caption("Dino Adventure")
 SCREEN_WIDTH, SCREEN_HEIGHT = (800, 400)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 
