@@ -1,9 +1,13 @@
 """
 Dino Runner Clone
 """
+from os import SEEK_SET
 import sys
 import time
+
+from pygame.display import get_window_size
 from settings import *
+from display import *
 
 def main():
 
@@ -15,6 +19,10 @@ def main():
     game_speed = 1.2
     myfont = pygame.font.SysFont('Comic Sans MS', 30)
     game_over = False
+    skyR = 255
+    skyG = 255
+    skyB = 255
+    skycolor = RGB(skyR, skyG, skyB, 255)
 
     # 요소
     clock = pygame.time.Clock()  # 시계 객체 생성
@@ -61,9 +69,9 @@ def main():
         player_rect = pygame.Rect(rex.player.x + 8, rex.player.y, 26, 60) # 이게 메인루프 안에 있어야지만 충돌을 감지함..
         surface = pygame.Surface(screen.get_size())
         surface = surface.convert()
-        surface.fill(WHITE)
+        surface.fill(skycolor.getColor())
         screen.blit(surface, (0, 0))
-        pygame.draw.rect(screen, WHITE, player_rect)
+        #pygame.draw.rect(screen, WHITE, player_rect)
         gui.display_score(scores)
         screen.blit(rex.player.update_surface(), (rex.player.x, rex.player.y))
 
@@ -82,6 +90,20 @@ def main():
             game_speed = 0
         if not game_over:
             scores += 0.5  # 스코어
+            #100점 기준 배경 변경
+            if (scores % 400 == 0):
+                skycolor.setColor(255, 255, 255, 255)
+            elif (scores % 400 == 100):
+                skycolor.setColor(241, 95, 95, 255)
+            elif (scores % 400 == 200):
+                skycolor.setColor(53, 53, 53, 255)
+            elif (scores % 400 == 300):
+                skycolor.setColor(165, 102, 255, 255)
+
+            #400점 기준 속력 상승
+            if (scores % 400 == 1):
+                game_speed+=0.1
+                print(game_speed)
 
         # 4-5. 업데이트
         pygame.display.update()
