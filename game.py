@@ -138,10 +138,16 @@ def main():
             Dash = True
             Dash_Target_Score = scores+50
             game_speed += game_speed/20
+<<<<<<< Updated upstream
         if Dash == True :
             if Dash_Target_Score <= scores:
                 game_speed -= game_speed/20
                 Dash = False
+=======
+        if Dash == True and Dash_Target_Score <= scores:
+            game_speed -= game_speed/20
+            Dash = False
+>>>>>>> Stashed changes
         # 추가 포인트 아이템
         if rex.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
             scores += 10
@@ -157,9 +163,14 @@ def main():
         if rex.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
             JumpTwice = True
             Jump_Target_Score = scores + 100
+<<<<<<< Updated upstream
         if JumpTwice == True :
             if Jump_Target_Score <= scores:
                 JumpTwice = False
+=======
+        if Dash == True and Jump_Target_Score <= scores:
+            JumpTwice = False
+>>>>>>> Stashed changes
         #100점 기준 배경 변경
         if (scores % 400 == 0):
             skycolor.setColor(255, 255, 255, 255)
