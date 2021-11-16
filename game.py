@@ -19,6 +19,17 @@ def main():
     game_speed = 1.2
     myfont = pygame.font.SysFont('Comic Sans MS', 30)
     game_over = False
+<<<<<<< Updated upstream
+=======
+    isRetry = False
+    Shield = False
+    Dash   = False
+    Dash_Target_Score = 0
+    JumpTwice = False
+    NoMoreJump = False
+    Jump_Target_Score = 0
+    isJump = 2
+>>>>>>> Stashed changes
     skyR = 255
     skyG = 255
     skyB = 255
@@ -55,6 +66,19 @@ def main():
                             velocidade = -45  # 점프 높이 설정
                             rex.player.y = 250
                             gravity = 10
+<<<<<<< Updated upstream
+=======
+                            isJump = 1
+                            print(isJump)
+                            if JumpTwice == True:
+                                sounda.play()
+                                time1 = time.time()
+                                velocidade = -45  # 점프 높이 설정
+                                rex.player.y = rex.player.y
+                                gravity = 10
+                                isJump = 0
+                                print(isJump)
+>>>>>>> Stashed changes
         t = time.time() - time1
 
         if velocidade < 100 and rex.player.y <= 250:
@@ -64,6 +88,8 @@ def main():
             velocidade += gravity * t
         if rex.player.y > 250:
             rex.player.y = 250
+            isJump = 2
+            print(isJump)
 
         # 4-4. 그리기
         player_rect = pygame.Rect(rex.player.x + 8, rex.player.y, 26, 60) # 이게 메인루프 안에 있어야지만 충돌을 감지함..
@@ -90,6 +116,7 @@ def main():
             game_speed = 0
         if not game_over:
             scores += 0.5  # 스코어
+<<<<<<< Updated upstream
             #100점 기준 배경 변경
             if (scores % 400 == 0):
                 skycolor.setColor(255, 255, 255, 255)
@@ -99,6 +126,50 @@ def main():
                 skycolor.setColor(53, 53, 53, 255)
             elif (scores % 400 == 300):
                 skycolor.setColor(165, 102, 255, 255)
+=======
+        
+        # 아이템 획득 부분 및 해당 아이템 구동 부분
+        #실드 아이템
+        if rex.check_collision(player_rect, Shield_obj, obs_dx=5, obs_dy=10) :
+            Shield = True
+            Shield_obj.Crash(Shield_x_start,Shield_y_start)
+        #대쉬 아이템
+        if rex.check_collision(player_rect, Dash_obj, obs_dx=5, obs_dy=10):
+            Dash = True
+            Dash_Target_Score = scores+50
+            game_speed += game_speed/20
+        if Dash == True :
+            if Dash_Target_Score <= scores:
+                game_speed -= game_speed/20
+                Dash = False
+        # 추가 포인트 아이템
+        if rex.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
+            scores += 10
+            Mini_obj.Crash(Mini_x_start,Mini_y_start)
+        if rex.check_collision(player_rect, Middle_obj, obs_dx=5, obs_dy=10) :
+            scores += 50
+            Middle_obj.Crash(Middle_x_start,Middle_y_start)
+        if rex.check_collision(player_rect, Big_obj, obs_dx=5, obs_dy=10) :
+            scores += 80
+            Big_obj.Crash(Big_x_start,Big_y_start)
+        
+        #2회 점프 아이템
+        if rex.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
+            JumpTwice = True
+            Jump_Target_Score = scores + 100
+        if JumpTwice == True :
+            if Jump_Target_Score <= scores:
+                JumpTwice = False
+        #100점 기준 배경 변경
+        if (scores % 400 == 0):
+            skycolor.setColor(255, 255, 255, 255)
+        elif (scores % 400 == 100):
+            skycolor.setColor(241, 95, 95, 255)
+        elif (scores % 400 == 200):
+            skycolor.setColor(53, 53, 53, 255)
+        elif (scores % 400 == 300):
+            skycolor.setColor(165, 102, 255, 255)
+>>>>>>> Stashed changes
 
             #400점 기준 속력 상승
             if (scores % 400 == 1):
