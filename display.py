@@ -9,12 +9,22 @@ class Display:
 
     def display_game_over(self):
         textsurface_over = self.font.render(f'Game Over', False, (0, 0, 0))
+        textsurface_retry = self.font.render(f'Retry?', False ,(0,0,0))
         self.screen.blit(textsurface_over, (315, 175))
+        self.screen.blit(textsurface_retry, (350, 215))
 
     def display_score(self, SCORES):
         textsurface = self.font.render(f'{SCORES:.0f}', False, (0, 0, 0))
         self.screen.blit(textsurface, (385, 0))
 
+    
+    def display_Shiled(self):
+        textsurface = self.font.render(f'Shiled', False ,(0,0,0))
+        self.screen.blit(textsurface, (100, 0))
+
+    def undisplay_Shiled(self):
+        textsurface = self.font.render(f'Shiled', False ,(255,255,255))
+        self.screen.blit(textsurface, (100, 0))
 class RGB:
     def __init__(self, r, g, b, a):
         self.red = r
