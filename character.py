@@ -6,7 +6,7 @@ class Player:
     def __init__(self, sprite_path):
         self.player = Animation(sprite_path)
         self.player.create_animation(0,110,50,57, "run", duration=120, rows=1, cols=2)
-        self.player.x = 150
+        self.player.x = 100
         self.player.y = 250
  
     def check_collision(self, player_rect, obstacle_obj, obs_dx=0, obs_dy=0):
