@@ -34,9 +34,11 @@ BASEDIR = os.path.dirname(os.path.abspath(__file__))
 # 캐릭터 스프라이트 경로
 rex_sprite_path = os.path.join(BASEDIR, "images/sprites", "rex_alfa.png")
 rex_over_path = os.path.join(BASEDIR, "images/img", "over.png")
+cactus_path = os.path.join(BASEDIR, "images/img", "cactus.png")
 sprite = pygame.image.load(rex_sprite_path).convert()
 rex = character.Player(rex_sprite_path)
 rex_over = pygame.image.load(rex_over_path)
+cactus = pygame.image.load(cactus_path)
 
 # 장애물, 배경, 구름 설정
 cactus_posx = [600, 900, 1100, 1500]
@@ -116,5 +118,9 @@ Jump_x_limit = 100
 Jump_x_start = random.randint(4000, 9000)
 Jump_y_start = Jump_obj.coord_list[0][1]
 
-sound_path = os.path.join(BASEDIR, "sound", "press.wav")
-sounda = pygame.mixer.Sound(sound_path)
+sound_jump_path = os.path.join(BASEDIR, "sound", "press.wav")
+sound_hit_path = os.path.join(BASEDIR, "sound", "hit.wav")
+sound_finish_path = os.path.join(BASEDIR, "sound", "finish.wav")
+sound_jump = pygame.mixer.Sound(sound_jump_path)
+sound_hit = pygame.mixer.Sound(sound_hit_path)
+sound_finish = pygame.mixer.Sound(sound_finish_path)

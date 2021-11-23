@@ -51,13 +51,13 @@ def gameRun():
                     # 윗 방향키도 점프 추가
                     if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                         if rex.player.y >= 250:
-                            sounda.play()
+                            sound_jump.play()
                             element.time1 = time.time()
                             element.velocidade = -45  # 점프 높이 설정
                             rex.player.y = 250
                             element.gravity = 10
                         if element.JumpTwice == True :
-                            sounda.play()
+                            sound_jump.play()
                             element.time1 = time.time()
                             element.velocidade = -45  # 점프 높이 설정
                             rex.player.y = rex.player.y
@@ -98,6 +98,7 @@ def gameRun():
         
         #캐릭터와 장애물간 충돌 
         if rex.check_collision(player_rect, cactus_obj, obs_dx=10, obs_dy=15):
+            sound_hit.play()
             if element.Shield == False and element.Dash == False:
                 element.game_over = True
                 element.isRetry = True
@@ -171,6 +172,7 @@ def gameRun():
                         Restart()
                         break
                     if event.key == pygame.K_n:
+                        gameover.GameOver.saveScore(element.scores)
                         return 1
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
@@ -196,3 +198,7 @@ def Restart():
     element.isJump = 0
     rex.player.y = 250
     terrain_obj.Yinit()
+    cactus_obj.coord_list[0][0] = 600
+    cactus_obj.coord_list[1][0] = 900
+    cactus_obj.coord_list[2][0] = 1100
+    cactus_obj.coord_list[3][0] = 1500
