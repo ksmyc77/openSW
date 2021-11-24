@@ -1,11 +1,10 @@
 import game
-from gameover import GameOver
-
-game_state = 0
+import gameover
 
 if __name__ == '__main__':
-    while game_state != -1:
-        if game_state == 0:
-            game_state = game.GameRun.gameRun()
-        elif game_state == 1:
-            game_state = GameOver.overRun()
+    state = "gamerun"
+    while state != "quit":
+        if(state == "gamerun"):
+            state = game.GameRun.gameRun()
+        if(state == "gameover"):
+            state = gameover.GameOver.overRun()

@@ -12,6 +12,7 @@ from settings import *
 from display import *
 
 import gameover
+import main
 
 # 변수 설정
 class element:
@@ -174,7 +175,7 @@ class GameRun:
                             break
                         if event.key == pygame.K_n:
                             gameover.GameOver.saveScore(element.scores)
-                            return 1
+                            return "gameover"
                         if event.key == pygame.K_ESCAPE:
                             pygame.quit()
                             sys.exit()
