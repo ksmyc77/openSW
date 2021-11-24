@@ -6,15 +6,20 @@ import sys
 import time
 from typing import Tuple
 
+from pygame import mouse
 from pygame import mixer
 from pygame.display import get_window_size
+
+import settings
 from settings import *
 from display import *
-
-
+import button
+from button import BtnClass
 
 def main():
     # 변수 설정
+
+    #로컬 변수
     scores = 0
     gravity = 5
     time1 = time.time()
@@ -34,6 +39,8 @@ def main():
     skyB = 255
     skycolor = RGB(skyR, skyG, skyB, 255)
 
+
+
     # 요소
     clock = pygame.time.Clock()  # 시계 객체 생성
     gui = display.Display(screen,myfont)
@@ -48,8 +55,78 @@ def main():
     Middle_obj = item.ItemElement(sprite, Middle_rect, Middle_list_coord)
     Big_obj = item.ItemElement(sprite, Big_rect, Big_list_coord)
     Jump_obj = item.ItemElement(sprite, Jump_rect, Jump_list_coord)
-    # 4. 메인 이벤트
-    while True:
+    
+    # 현재 페이지 상태를 나타내는 변수
+    while settings.state == 'in_main':        
+        screen.fill(WHITE)
+        for event in pygame.event.get():
+            # 게임 종료
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.blit(rex.player.update_surface(), (75, 250))
+        terrain_obj.move(screen, game_speed, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)  
+        screen.blit(pygame.image.load(os.path.join(BASEDIR, "images/isolated_frames", "title.png")).convert(),(400-185,30))
+        BtnRun = BtnClass(screen, btn_setting, 400-68, 210, 136, 50, act_setting, To_Setting)
+        BtnRanking = BtnClass(screen, btn_rank, 400-68, 270, 136, 50, act_rank, To_Ranking)
+        BtnEXIT = BtnClass(screen, btn_exit, 400-68, 330, 136, 50, act_exit, To_EXIT)
+
+        pygame.display.update()
+        clock.tick(60)  # 60프레임
+
+    while settings.state == 'in_rank':        
+        screen.fill(WHITE)
+        for event in pygame.event.get():
+            # 게임 종료
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.blit(pygame.image.load(os.path.join(BASEDIR, "images/isolated_frames", "leaderboard.png")).convert(),(400-230,10))
+        screen.blit(pygame.image.load(os.path.join(BASEDIR, "images/isolated_frames", "ranking_draw.png")).convert(),(400-222,240))
+        screen.blit(rex.player.update_surface(), (375, 185))
+        screen.blit(rex.player.update_surface(), (227, 231))
+        screen.blit(rex.player.update_surface(), (523, 231))
+        gui.display_rank('Aino', 5677, 375, 110)
+        gui.display_rank('Bino', 1243, 227, 166)
+        gui.display_rank('Cino', 14, 523, 166)
+        pygame.display.update()
+        clock.tick(60)  # 60프레임
+
+    while settings.state == 'in_setting':        
+        screen.fill(WHITE)
+        for event in pygame.event.get():
+            # 게임 종료
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+        screen.blit(rex.player.update_surface(), (375, 172))
+        BtnNormal = BtnClass(screen, btn_normal, 150, 75, 100, 50, act_normal, Mode_to_Normal)
+        BtnStage = BtnClass(screen, btn_stage, 350, 75, 100, 50, act_stage, Mode_to_Stage)
+        BtnRace = BtnClass(screen, btn_race, 550, 75, 100, 50, act_race, Mode_to_race)
+        BtnRun = BtnClass(screen, btn_set_run, 275, 250, 250, 75, act_set_run, To_Run)
+        BtnHome = BtnClass(screen,btn_home, 50, 310, 70, 40, act_home, To_main)
+        pygame.display.update()
+        clock.tick(60)  # 60프레임
+
+    while settings.state == 'login':
+        screen.fill(WHITE)
+        screen.blit(btn_game , CENTER)
+        pygame.display.update()
+        clock.tick(60)  # 60프레임
+        # 4-2. 각종 입력 감지
+        for event in pygame.event.get():
+            # 게임 종료
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    settings.state = 'in_game'
+                    break
+
+
+    # 메인 이벤트
+    while settings.state == 'in_game':
         # 4-1. FPS 설정
         clock.tick(60)  # 60프레임
         # 4-2. 각종 입력 감지
@@ -172,6 +249,7 @@ def main():
 
         pygame.display.update()
 
+        #재시작함수
         while isRetry:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
@@ -182,11 +260,14 @@ def main():
                         Dash   = False
                         Dash_Target_Score = 0
                         JumpTwice = False
+                        game_speed = 1.2
                         Restart()
                         break
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         sys.exit()
+                    if event.key == pygame.K_n:
+                        To_Setting
                 if event.type == pygame.QUIT :
                     pygame.quit()
                     sys.exit()

@@ -10,6 +10,8 @@ import item
 
 WHITE = (255, 255, 255)
 
+CENTER = (325, 175)
+
 # 1. 게임 초기화
 pygame.init()
 pygame.mixer.init()
@@ -22,10 +24,54 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
 # 3-2 요소
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 
-# 캐릭터 스프라이트 경로
+# 각종 스프라이트 및 이미지 경로
 rex_sprite_path = os.path.join(BASEDIR, "images/sprites", "rex_alfa.png")
+#통상 이미지 버튼
+btn_setting_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_setting.png")
+btn_ranking_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_rank.png")
+btn_exit_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_exit.png")
+btn_game_image_path = os.path.join(BASEDIR, "images/isolated_frames", "button.png")
+btn_normal_image_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_normal.png")
+btn_stage_image_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_stage.png")
+btn_race_image_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_race.png")
+btn_set_run_image_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_set_run.png")
+btn_home_image_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_home.png")
+#마우스 오버시 이미지 버튼
+act_setting_path = os.path.join(BASEDIR, "images/isolated_frames", "act_setting.png")
+act_ranking_path = os.path.join(BASEDIR, "images/isolated_frames", "act_rank.png")
+act_exit_path = os.path.join(BASEDIR, "images/isolated_frames", "act_exit.png")
+act_normal_image_path = os.path.join(BASEDIR, "images/isolated_frames", "act_normal.png")
+act_stage_image_path = os.path.join(BASEDIR, "images/isolated_frames", "act_stage.png")
+act_race_image_path = os.path.join(BASEDIR, "images/isolated_frames", "act_race.png")
+act_set_run_image_path = os.path.join(BASEDIR, "images/isolated_frames", "act_set_run.png")
+act_home_image_path = os.path.join(BASEDIR, "images/isolated_frames", "act_home.png")
 
 sprite = pygame.image.load(rex_sprite_path).convert()
+#통상 이미지 버튼
+btn_setting = pygame.image.load(btn_setting_path).convert()
+btn_rank = pygame.image.load(btn_ranking_path).convert()
+btn_exit = pygame.image.load(btn_exit_path).convert()
+
+btn_game = pygame.image.load(btn_game_image_path).convert()
+btn_normal = pygame.image.load(btn_normal_image_path).convert()
+btn_stage = pygame.image.load(btn_stage_image_path).convert()
+btn_race = pygame.image.load(btn_race_image_path).convert()
+btn_set_run = pygame.image.load(btn_set_run_image_path).convert()
+btn_home = pygame.image.load(btn_home_image_path).convert()
+#마우스 오버시 이미지 버튼
+act_setting = pygame.image.load(act_setting_path).convert()
+act_rank = pygame.image.load(act_ranking_path).convert()
+act_exit = pygame.image.load(act_exit_path).convert()
+
+act_normal = pygame.image.load(act_normal_image_path).convert()
+act_stage = pygame.image.load(act_stage_image_path).convert()
+act_race = pygame.image.load(act_race_image_path).convert()
+act_set_run = pygame.image.load(act_set_run_image_path).convert()
+act_home = pygame.image.load(act_home_image_path).convert()
+
+#초기 게임 화면 및 게임 모드 설정
+state = 'in_main'
+mode  = 'normal'
 
 # 장애물, 배경, 구름 설정
 cactus_posx = [600, 900]
@@ -110,6 +156,42 @@ Jump_y_start = Jump_obj.coord_list[0][1]
 
 sound_path = os.path.join(BASEDIR, "sound", "press.wav")
 sounda = pygame.mixer.Sound(sound_path)
+
+# 게임 모드 설정 함수
+def Mode_to_Normal() : # 무한 모드 설정
+  global mode
+  mode = 'normal'
+def Mode_to_Stage() : #스테이지 모드 설정
+  global mode
+  mode = 'stage'
+def Mode_to_race() : # 경쟁 모드 설정
+  global mode
+  mode = 'race'
+
+#화면 전환 함수
+def To_main():
+  global state
+  state = 'in_main'
+
+def To_EXIT():
+  pygame.quit()
+
+def To_Ranking():
+  global state
+  state = 'in_rank'
+
+def To_Setting():
+  global state
+  state = 'in_setting'
+
+def To_Run():
+  global state, mode
+  if mode == 'normal':
+    state ='in_game'
+  elif mode == 'stage':
+    print("미구현")
+  elif mode == 'race':
+    print("미구현")
 
 # 재시작시 구동을 위한 함수
 def Restart():
@@ -213,3 +295,4 @@ def Restart():
 
   sound_path = os.path.join(BASEDIR, "sound", "press.wav")
   sounda = pygame.mixer.Sound(sound_path)
+
