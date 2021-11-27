@@ -1,3 +1,5 @@
+import random
+from settings import *
 
 class ScenarioElement:
 
@@ -11,6 +13,12 @@ class ScenarioElement:
             # coord x
             self.coord_list[i][0] -= game_speed_multiplicator * game_speed
             if coord[0] < x_limit:  # x값이 제한선을 만나면
+                x_last = self.coord_list[i-1][0]
+                if(x_start - x_last < 180 and x_start - x_last > 0):
+                    x_start += random.randint(180, 300)
+                elif(x_start - x_last <= 0):
+                    x_start  = x_last + random.randint(180, 300)
+            
                 # 스타트 값으로 재설정
                 self.coord_list[i][0] = x_start
                 self.coord_list[i][1] = y_start
@@ -19,3 +27,12 @@ class ScenarioElement:
           for i, coord in enumerate(self.coord_list):
               self.coord_list[i][0] = x_start
               self.coord_list[i][1] = y_start
+
+    def drawAll(self, screen):
+        for i, coord in enumerate(self.coord_list):
+            screen.blit(self.surface, coord)
+
+    def Yinit(self):
+        for i, coord in enumerate(self.coord_list):
+            if(coord[1] != 300):
+                coord[1] = 300
