@@ -55,8 +55,10 @@ class GameRun:
                     pygame.quit()
                     sys.exit()
                 if not element.game_over:
+                    rex.player.run("run")
                     if event.type == pygame.KEYDOWN:
                         # 윗 방향키도 점프 추가
+                        keys = pygame.key.get_pressed()
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
                             if rex.player.y >= 250:
                                 sound_jump.play()
@@ -69,7 +71,15 @@ class GameRun:
                                 element.time1 = time.time()
                                 element.velocidade = -45  # 점프 높이 설정
                                 rex.player.y = rex.player.y
-                                element.gravity = 10
+                                element.gravity = 10       
+                        # 슬라이딩 구현
+                        if rex.player.y >= 250 and keys[pygame.K_DOWN]:
+                            rex.player.run("slide")
+                            print("눌러짐")
+                        else:
+                            rex.player.run("run")
+
+
             t = time.time() - element.time1
             if element.velocidade < 100 and rex.player.y <= 250:
                 if element.velocidade > 0:
@@ -95,14 +105,14 @@ class GameRun:
             cactus_obj.move(screen, element.game_speed, cactus_game_speed_multi, cactus_x_limit , cactus_x_start, cactus_y_start)
             
             # 아이템을 움직이게 설정
-            #Shield_obj.move(screen, game_speed, Shield_game_speed_multi, Shield_x_limit , Shield_x_start, Shield_y_start)
-            #Dash_obj.move(screen, game_speed, Dash_game_speed_multi, Dash_x_limit , Dash_x_start, Dash_y_start)
-            #Mini_obj.move(screen, game_speed, Mini_game_speed_multi, Mini_x_limit , Mini_x_start, Mini_y_start)
-            #Middle_obj.move(screen, game_speed, Middle_game_speed_multi, Middle_x_limit , Middle_x_start, Middle_y_start)
-            #Big_obj.move(screen, game_speed, Big_game_speed_multi, Big_x_limit , Big_x_start, Big_y_start)
-            #Jump_obj.move(screen, game_speed, Jump_game_speed_multi, Jump_x_limit , Jump_x_start, Jump_y_start)
+            Shield_obj.move(screen, element.game_speed, Shield_game_speed_multi, Shield_x_limit , Shield_x_start, Shield_y_start)
+            Dash_obj.move(screen, element.game_speed, Dash_game_speed_multi, Dash_x_limit , Dash_x_start, Dash_y_start)
+            Mini_obj.move(screen, element.game_speed, Mini_game_speed_multi, Mini_x_limit , Mini_x_start, Mini_y_start)
+            Middle_obj.move(screen, element.game_speed, Middle_game_speed_multi, Middle_x_limit , Middle_x_start, Middle_y_start)
+            Big_obj.move(screen, element.game_speed, Big_game_speed_multi, Big_x_limit , Big_x_start, Big_y_start)
+            Jump_obj.move(screen, element.game_speed, Jump_game_speed_multi, Jump_x_limit , Jump_x_start, Jump_y_start)
             # 게임 설정
-            rex.player.run("run")
+            #rex.player.run("run")
             
             #캐릭터와 장애물간 충돌 
             if rex.check_collision(player_rect, cactus_obj, obs_dx=10, obs_dy=15):
@@ -118,6 +128,7 @@ class GameRun:
             if element.game_over:
                 #gui.display_game_over()
                 #game_speed = 0
+                rex.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
                 gameover.GameOver.over(gui)
 
             if not element.game_over:
