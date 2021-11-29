@@ -44,9 +44,14 @@ class GameRun:
         skycolor = RGB(skyR, skyG, skyB, 255)
         
         GameRun.Restart()
+        motion_state = "run"
         # 4. 메인 이벤트
         while True:
-            player_rect = pygame.Rect(rex.player.x + 8, rex.player.y, 26, 60)
+            if motion_state == "run":
+                player_rect = pygame.Rect(rex.player.x+8, rex.player.y, 26, 60)
+            elif motion_state == "slide":
+                player_rect = pygame.Rect(rex.player.x + 8, 100, 26, 60)
+
             # 4-1. FPS 설정
             clock.tick(60)  # 60프레임
             # 4-2. 각종 입력 감지
@@ -73,12 +78,12 @@ class GameRun:
                                 rex.player.y = rex.player.y
                                 element.gravity = 10       
                         # 슬라이딩 구현
-                        if rex.player.y >= 250 and event.key == pygame.K_DOWN:
+                        if rex.player.y >= 200 and event.key == pygame.K_DOWN:
                             rex.player.run("slide")
-                            player_rect = pygame.Rect(rex.player.x + 8, rex.player.y-20, 26, 60)
+                            motion_state = "slide"
                         else:
                             rex.player.run("run")
-                            player_rect = pygame.Rect(rex.player.x + 8, rex.player.y, 26, 60)
+                            motion_state = "run"
 
 
             t = time.time() - element.time1
@@ -91,7 +96,6 @@ class GameRun:
                 rex.player.y = 250
 
             # 4-4. 그리기
-            #player_rect = pygame.Rect(rex.player.x + 8, rex.player.y, 26, 60) # 이게 메인루프 안에 있어야지만 충돌을 감지함..
             surface.fill(skycolor.getColor())
             screen.blit(surface, (0, 0))
             gui.display_score(element.scores)
@@ -100,10 +104,12 @@ class GameRun:
             cactus_x_start = random.randint(800, 1100)
             cloud_x_start = random.randint(800, 1200)
             cloud_y_start = random.randint(20, 200)
+            bird_x_start = random.randint(1300,1500)
             # 장애물, 배경, 구름을 움직이게 설정
             terrain_obj.move(screen, element.game_speed, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
             cloud_obj.move(screen, element.game_speed, cloud_game_speed_multi, cloud_x_limit, cloud_x_start , cloud_y_start)
             cactus_obj.move(screen, element.game_speed, cactus_game_speed_multi, cactus_x_limit , cactus_x_start, cactus_y_start)
+            bird_obj.move(screen, element.game_speed, bird_game_speed_multi, bird_x_limit , bird_x_start, bird_y_start)
             
             # 아이템을 움직이게 설정
             # Shield_obj.move(screen, element.game_speed, Shield_game_speed_multi, Shield_x_limit , Shield_x_start, Shield_y_start)
@@ -115,7 +121,7 @@ class GameRun:
             # 게임 설정
 
             #캐릭터와 장애물간 충돌 
-            if rex.check_collision(player_rect, cactus_obj, obs_dx=10, obs_dy=15):
+            if rex.check_collision(player_rect, cactus_obj, obs_dx=10, obs_dy=15) or rex.check_collision(player_rect, bird_obj, obs_dx=10, obs_dy=15):
                 sound_hit.play()
                 if element.Shield == False and element.Dash == False:
                     element.game_over = True
@@ -124,6 +130,8 @@ class GameRun:
                     element.Shield = False
                 if not element.game_over:
                     cactus_obj.Crash(cactus_x_start,cactus_y_start)
+
+
 
             if element.game_over:
                 #gui.display_game_over()
@@ -220,3 +228,4 @@ class GameRun:
         cactus_obj.coord_list[1][0] = 900
         cactus_obj.coord_list[2][0] = 1100
         cactus_obj.coord_list[3][0] = 1500
+        bird_obj.coord_list[0][0] = 50

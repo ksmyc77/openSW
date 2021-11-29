@@ -92,12 +92,22 @@ cactus = pygame.image.load(cactus_path)
 
 # 장애물, 배경, 구름 설정
 cactus_posx = [600, 900, 1100, 1500]
-cactus_list_coord = [[x, 258] for x in cactus_posx]  # [ [600,258] , [900,258] ]
+cactus_list_coord = [[x, 258] for x in cactus_posx]  # [ [600,258] , [900,258] ] 258
 cactus_rect = (148, 55, 60, 58)
 cactus_obj = backgorund.ScenarioElement(sprite, cactus_rect, cactus_list_coord)
 cactus_game_speed_multi = 4
 cactus_x_limit = 0
 cactus_y_start = cactus_obj.coord_list[0][1]
+
+# 공중 장애물
+bird_posx = [50]
+bird_list_coord = [[x, 240] for x in bird_posx]  # [ [600,258] , [900,258] ] 258
+bird_rect = (210, 150, 60, 100)
+bird_obj = backgorund.ScenarioElement(sprite, bird_rect, bird_list_coord)
+bird_game_speed_multi = 4
+bird_x_limit = 0
+bird_y_start = bird_obj.coord_list[0][1]
+
 
 terrain_posx = [0, 480, 960]
 terrain_list_coord = [[x, 300] for x in terrain_posx]  # [ [0,300] , [480,300] , [960,300] ]
