@@ -42,12 +42,13 @@ class GameRun:
         skyG = 255
         skyB = 255
         skycolor = RGB(skyR, skyG, skyB, 255)
-        
-        GameRun.Restart()
+        j = 3
+        GameRun.init()
         # 4. 메인 이벤트
         while True:
             # 4-1. FPS 설정
             clock.tick(60)  # 60프레임
+
             # 4-2. 각종 입력 감지
             for event in pygame.event.get():
                 # 게임 종료
@@ -58,33 +59,33 @@ class GameRun:
                     if event.type == pygame.KEYDOWN:
                         # 윗 방향키도 점프 추가
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
-                            if rex.player.y >= 250:
+                            if dinosour.character.player.y >= 250:
                                 sound_jump.play()
                                 element.time1 = time.time()
                                 element.velocidade = -45  # 점프 높이 설정
-                                rex.player.y = 250
+                                dinosour.character.player.y = 250
                                 element.gravity = 10
                             if element.JumpTwice == True :
                                 sound_jump.play()
                                 element.time1 = time.time()
                                 element.velocidade = -45  # 점프 높이 설정
-                                rex.player.y = rex.player.y
+                                dinosour.character.player.y = dinosour.character.player.y
                                 element.gravity = 10
             t = time.time() - element.time1
-            if element.velocidade < 100 and rex.player.y <= 250:
+            if element.velocidade < 100 and dinosour.character.player.y <= 250:
                 if element.velocidade > 0:
                     element.gravity = 5
-                rex.player.y += (int(element.velocidade * t))
+                dinosour.character.player.y += (int(element.velocidade * t))
                 element.velocidade += element.gravity * t
-            if rex.player.y > 250:
-                rex.player.y = 250
+            if dinosour.character.player.y > 250:
+                dinosour.character.player.y = 250
 
             # 4-4. 그리기
-            player_rect = pygame.Rect(rex.player.x + 8, rex.player.y, 26, 60) # 이게 메인루프 안에 있어야지만 충돌을 감지함..
+            player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y, 26, 60) # 이게 메인루프 안에 있어야지만 충돌을 감지함..
             surface.fill(skycolor.getColor())
             screen.blit(surface, (0, 0))
             gui.display_score(element.scores)
-            screen.blit(rex.player.update_surface(), (rex.player.x, rex.player.y))
+            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
 
             cactus_x_start = random.randint(800, 1100)
             cloud_x_start = random.randint(800, 1200)
@@ -102,10 +103,10 @@ class GameRun:
             Big_obj.move(screen, element.game_speed, Big_game_speed_multi, Big_x_limit , Big_x_start, Big_y_start)
             Jump_obj.move(screen, element.game_speed, Jump_game_speed_multi, Jump_x_limit , Jump_x_start, Jump_y_start)
             # 게임 설정
-            rex.player.run("run")
+            dinosour.character.player.run("run")
             
             #캐릭터와 장애물간 충돌 
-            if rex.check_collision(player_rect, cactus_obj, obs_dx=10, obs_dy=15):
+            if dinosour.character.check_collision(player_rect, cactus_obj, obs_dx=10, obs_dy=15):
                 sound_hit.play()
                 if element.Shield == False and element.Dash == False:
                     element.game_over = True
@@ -118,18 +119,18 @@ class GameRun:
             if element.game_over:
                 #gui.display_game_over()
                 #game_speed = 0
-                gameover.GameOver.over(gui)
+                gameover.GameOver.over()
 
             if not element.game_over:
                 element.scores += 0.5  # 스코어
             
             # 아이템 획득 부분 및 해당 아이템 구동 부분
             #실드 아이템
-            if rex.check_collision(player_rect, Shield_obj, obs_dx=5, obs_dy=10) :
+            if dinosour.character.check_collision(player_rect, Shield_obj, obs_dx=5, obs_dy=10) :
                 element.Shield = True
                 Shield_obj.Crash(Shield_x_start,Shield_y_start)
             #대쉬 아이템
-            if rex.check_collision(player_rect, Dash_obj, obs_dx=5, obs_dy=10):
+            if dinosour.character.check_collision(player_rect, Dash_obj, obs_dx=5, obs_dy=10):
                 element.Dash = True
                 element.Dash_Target_Score = element.scores+100
                 element.game_speed += element.game_speed/20
@@ -137,18 +138,18 @@ class GameRun:
                 element.game_speed -= element.game_speed/20
                 element.Dash = False
             # 추가 포인트 아이템
-            if rex.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
+            if dinosour.character.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
                 element.scores += 10
                 Mini_obj.Crash(Mini_x_start,Mini_y_start)
-            if rex.check_collision(player_rect, Middle_obj, obs_dx=5, obs_dy=10) :
+            if dinosour.character.check_collision(player_rect, Middle_obj, obs_dx=5, obs_dy=10) :
                 element.scores += 50
                 Middle_obj.Crash(Middle_x_start,Middle_y_start)
-            if rex.check_collision(player_rect, Big_obj, obs_dx=5, obs_dy=10) :
+            if dinosour.character.check_collision(player_rect, Big_obj, obs_dx=5, obs_dy=10) :
                 element.scores += 100
                 Big_obj.Crash(Big_x_start,Big_y_start)
             
             #2회 점프 아이템
-            if rex.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
+            if dinosour.character.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
                 element.JumpTwice = True
                 element.Jump_Target_Score = element.scores + 100
             if element.Dash == True and element.Jump_Target_Score <= element.scores:
@@ -177,19 +178,20 @@ class GameRun:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_y:
                             cactus_obj.Crash(cactus_x_start,cactus_y_start)
-                            GameRun.Restart()
+                            GameRun.init()
                             break
                         if event.key == pygame.K_n:
                             gameover.GameOver.saveScore(element.scores)
-                            return "gameover"
+                            settings.state = "gameover"
+                            return
                         if event.key == pygame.K_ESCAPE:
-                            pygame.quit()
-                            sys.exit()
+                            settings.state = "quit"
+                            return
                     if event.type == pygame.QUIT :
-                        pygame.quit()
-                        sys.exit()
+                        settings.state = "quit"
+                        return
 
-    def Restart():
+    def init():
         element.scores = 0
         element.gravity = 5
         element.time1 = time.time()
@@ -203,9 +205,10 @@ class GameRun:
         element.JumpTwice = False
         element.Jump_Target_Score = 0
         element.isJump = 0
-        rex.player.y = 250
+        dinosour.character.player.y = 250
         terrain_obj.Yinit()
         cactus_obj.coord_list[0][0] = 600
         cactus_obj.coord_list[1][0] = 900
         cactus_obj.coord_list[2][0] = 1100
         cactus_obj.coord_list[3][0] = 1500
+        dinosour.character.player.run("run")

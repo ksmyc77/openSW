@@ -13,10 +13,8 @@ class SetGame:
         SetGame.set_state = "set_Mode"
         while True:
             if (SetGame.set_state == "set_Character"):
-                print(character)
                 SetGame.setCharacter()
             if (SetGame.set_state == "set_Mode"):
-                print("mode")
                 SetGame.setMode()
             
             if(SetGame.set_stop == True):
@@ -49,12 +47,17 @@ class SetGame:
             goC_button = gui.font.render(f'[Character]', False, LTGRAY)
             gui.screen.blit(goC_button, (600, 330))
 
+            rect_b = pygame.Rect(30, 326, 120, 60)
+            pygame.draw.rect(screen, DDKGRAY, rect_b)
+            goB_button = gui.font.render(f'[BACK]', False, LTGRAY)
+            gui.screen.blit(goB_button, (40, 330))
+
             origin = pygame.Rect(x, y, 160, 120)
             origin2 = pygame.Rect(x+10, y+10, 140, 100)
             item = pygame.Rect(xm, y, 160, 120)           
             item2 = pygame.Rect(xm+10, y+10, 140, 100)           
               
-            if(settings.game_mode == "normal"):
+            if(settings.game_mode == "origin"):
                 pygame.draw.rect(screen, DKGRAY, origin)
                 pygame.draw.rect(screen, DDKGRAY, origin2)
                 origint = gui.font.render(f'Normal', False, LTGRAY)
@@ -73,23 +76,28 @@ class SetGame:
             gui.screen.blit(itemt, (xm + 44, y + 36)) 
 
             btn_run = pygame.image.load(btn_set_run_image_path)
-            gui.screen.blit(btn_run, (320,330))
+            gui.screen.blit(btn_run, (300,330))
             #rect = pygame.Rect(320, 330, 182, 55)
-            #ygame.draw.rect(screen, LTGRAY, rect)
+            #pygame.draw.rect(screen, LTGRAY, rect)
 
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     location = pygame.mouse.get_pos()
                     if location[0] >= x and location[0] <= x+160 and location[1] >= y and location[1]<=y+120:
-                        settings.game_mode = "normal"
+                        settings.game_mode = "origin"
                     if location[0] >= xm and location[0] <= xm+160 and location[1] >= y and location[1]<=y+120:
                         settings.game_mode = "item"
-                    if location[0] >= 320 and location[0] <= 502 and location[1] >= 330 and location[1]<=385:
+                    if location[0] >= 300 and location[0] <= 482 and location[1] >= 330 and location[1]<=385:
                         settings.state = "loading"
                         SetGame.set_stop = True
                         return
                     if location[0] >= 590 and location[0] <= 770 and location[1] >= 326 and location[1]<=386:
                         SetGame.set_state = "set_Character"
+                        return
+                    if location[0] >= 30 and location[0] <= 150 and location[1] >= 326 and location[1]<=386:
+                        #settings.state = "in_main"
+                        settings.state = "quit"
+                        SetGame.set_stop = True
                         return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -179,6 +187,11 @@ class SetGame:
             goMode_button = gui.font.render(f'[Set Mode]', False, LTGRAY)
             gui.screen.blit(goMode_button, (600, 330))
 
+            rect_b = pygame.Rect(30, 326, 120, 60)
+            pygame.draw.rect(screen, DDKGRAY, rect_b)
+            goB_button = gui.font.render(f'[BACK]', False, LTGRAY)
+            gui.screen.blit(goB_button, (40, 330))
+
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     location = pygame.mouse.get_pos()
@@ -190,6 +203,11 @@ class SetGame:
                         dinosour.setCharacter(terzi, terzi_over)
                     if location[0] >= 590 and location[0] <= 770 and location[1] >= 326 and location[1]<=386:
                         SetGame.set_state = "set_Mode"
+                        return
+                    if location[0] >= 30 and location[0] <= 150 and location[1] >= 326 and location[1]<=386:
+                        #settings.state = "in_main"
+                        settings.state = "quit"
+                        SetGame.set_stop = True
                         return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:

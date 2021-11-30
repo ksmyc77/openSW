@@ -75,7 +75,7 @@ class GameOver:
                         if location[0] >= 640 and location[0] <= 693 and location[1] >= 270 and location[1]<=310:
                             settings.state = "gameSetting"
                             verOrigin.GameRun.init()
-                            #verItem.GameRun.init()
+                            verItem.GameRun.init()
                             return
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE or event.key == pygame.K_x:
@@ -90,14 +90,16 @@ class GameOver:
         text_rank = gui.font.render(f'Your Rank : {GameOver.rank}', False, (0, 0, 0))
         gui.screen.blit(text_rank, (290, 110))
         text_score = gui.font.render(f'Your Score : {GameOver.score}' , False, (0, 0, 0))
-        gui.screen.blit(text_score, (285, 180))
+        gui.screen.blit(text_score, (270, 180))
         text_score = gui.font.render(f'Your Highest Score : {GameOver.high}' , False, (0, 0, 0))
         gui.screen.blit(text_score, (220, 250))
         delay(GameOver.time_delay)
         if(GameOver.score < GameOver.result_score):
             if((GameOver.result_score - GameOver.score) / 100 > 1):
-                print((GameOver.result_score - GameOver.score) / 100)
+                #print((GameOver.result_score - GameOver.score) / 100)
                 GameOver.score += 100
+            elif((GameOver.result_score - GameOver.score) / 50 > 1):
+                GameOver.score += 50
             else:
                 GameOver.time_delay -= int(GameOver.time_delay * 3/2)
                 GameOver.score += 0.5
