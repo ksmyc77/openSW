@@ -202,11 +202,11 @@ class SetGame:
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     location = pygame.mouse.get_pos()
                     if location[0] >= x and location[0] <= x+160 and location[1] >= y and location[1]<=y+200:
-                        dinosour.setCharacter(rex)
+                        dinosour.setCharacter(rex, rex_s)
                     if location[0] >= x - 220 and location[0] <= x - 60 and location[1] >= y and location[1]<=y+200:
-                        dinosour.setCharacter(paki)
+                        dinosour.setCharacter(paki, paki_s)
                     if location[0] >= x + 220 and location[0] <= x + 380 and location[1] >= y and location[1]<=y+200:
-                        dinosour.setCharacter(terzi)
+                        dinosour.setCharacter(terzi, terzi_s)
                     if location[0] >= 590 and location[0] <= 770 and location[1] >= 326 and location[1]<=386:
                         SetGame.set_state = "set_Mode"
                         return

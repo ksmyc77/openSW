@@ -3,9 +3,12 @@ import pygame
 from pyanimation import Animation
 
 class Player:
-    def __init__(self, sprite_path):
+    def __init__(self, sprite_path, type):
         self.player = Animation(sprite_path)
-        self.player.create_animation(0,110,50,57, "run", duration=120, rows=1, cols=2)
+        if(type == "run"):
+            self.player.create_animation(0,110,50,57, "run", duration=120, rows=1, cols=2)
+        if(type == "slide"):
+            self.player.create_animation(10,167,60,70, "slide", duration=120, rows=1, cols=2)
         self.player.x = 100
         self.player.y = 250
  
@@ -23,14 +26,19 @@ class Player:
             return True
 
 class Character:
-    def setCharacter(self, c):
+    def setCharacter(self, c, s):
         self.character = c
+        self.another = s
+        self.run = c
+        self.slide = s
 
-    def setSlide(self):
-        self.character.player.create_animation(10,167,60,70, "slide", duration=120, rows=1, cols=2)
+    def switch(self):
+        temp = self.character
+        self.character = self.another
+        self.another = temp
 
     def setRun(self):
-        self.character.player.create_animation(0,110,50,57, "run", duration=120, rows=1, cols=2)
+        self.character = self.run
 
-    def setDeath(self):
-        self.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
+    def setSlide(self):
+        self.character = self.slide

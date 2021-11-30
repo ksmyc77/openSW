@@ -42,6 +42,7 @@ class GameRun:
         while True:
             # 4-1. FPS 설정
             clock.tick(60)  # 60프레임
+            dinosour.character.player.run("run")
 
             # 4-2. 각종 입력 감지
             for event in pygame.event.get():
@@ -59,6 +60,11 @@ class GameRun:
                                 element.velocidade = -45  # 점프 높이 설정
                                 dinosour.character.player.y = 250
                                 element.gravity = 10
+                        if event.key == pygame.K_DOWN or event.key == pygame.K_d:
+                            dinosour.setSlide()
+                    if event.type == pygame.KEYUP:
+                        if event.key == pygame.K_DOWN or event.key == pygame.K_d:
+                            dinosour.setRun()
             t = time.time() - element.time1
             if element.velocidade < 100 and dinosour.character.player.y <= 250:
                 if element.velocidade > 0:
@@ -141,10 +147,12 @@ class GameRun:
         element.game_over = False
         element.isRetry = False
         element.isJump = 0
-        dinosour.character.player.y = 250
+        dinosour.run.player.y = 250
+        dinosour.slide.player.y = 250
         terrain_obj.Yinit()
         cactus_obj.coord_list[0][0] = 600
         cactus_obj.coord_list[1][0] = 900
         cactus_obj.coord_list[2][0] = 1100
         cactus_obj.coord_list[3][0] = 1500
         dinosour.character.player.run("run")
+        dinosour.setRun()

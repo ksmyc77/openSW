@@ -73,6 +73,11 @@ class GameRun:
                                 element.velocidade = -45  # 점프 높이 설정
                                 dinosour.character.player.y = dinosour.character.player.y
                                 element.gravity = 10
+                            if event.key == pygame.K_DOWN or event.key == pygame.K_d:
+                                dinosour.setSlide()
+                    if event.type == pygame.KEYUP:
+                        if event.key == pygame.K_DOWN or event.key == pygame.K_d:
+                            dinosour.setRun()
             t = time.time() - element.time1
             if element.velocidade < 100 and dinosour.character.player.y <= 250:
                 if element.velocidade > 0:
@@ -218,7 +223,8 @@ class GameRun:
         element.JumpTwice = False
         element.Jump_Target_Score = 0
         element.isJump = 0
-        dinosour.character.player.y = 250
+        dinosour.run.player.y = 250
+        dinosour.slide.player.y = 250
         terrain_obj.Yinit()
         cactus_obj.coord_list[0][0] = 600
         cactus_obj.coord_list[1][0] = 900
@@ -226,3 +232,4 @@ class GameRun:
         cactus_obj.coord_list[3][0] = 1500
         dinosour.character.player.run("run")
         items.init()
+        dinosour.setRun()
