@@ -11,14 +11,15 @@ class Display:
 
     def display_game_over(self):
         textsurface_over = self.font.render(f'Game Over', False, (0, 0, 0))
-        textsurface_retry = self.font.render(f'Retry?', False ,(0,0,0))
-        self.screen.blit(textsurface_over, (315, 175))
-        self.screen.blit(textsurface_retry, (350, 215))
+        self.screen.blit(textsurface_over, (320, 30))
+
+    def display_game_retry(self):
+        textsurface_retry = self.font.render(f'Retry?(Y/N)', False ,(0,0,0))
+        self.screen.blit(textsurface_retry, (316, 90))
 
     def display_score(self, SCORES):
         textsurface = self.font.render(f'{SCORES:.0f}', False, (0, 0, 0))
         self.screen.blit(textsurface, (385, 0))
-
     
     def display_Shiled(self):
         textsurface = self.font.render(f'Shiled', False ,(0,0,0))
@@ -30,9 +31,13 @@ class Display:
 
     def display_rank(self, name, score, x, y):
         charName = self.font.render(name, False, (0, 0, 0))
-        charScore = self.font.render(f'{score:.0f}', False, (0, 0, 0))
+        charScore = self.font.render(f'{score:.1f}', False, (0, 0, 0))
         self.screen.blit(charName, (x, y)) 
         self.screen.blit(charScore, (x, y + 32))
+
+    def display_text(self, name, x, y):
+        charName = self.font.render(name, False, (0, 0, 0))
+        self.screen.blit(charName, (x, y)) 
 
 
 class RGB:
