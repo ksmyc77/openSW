@@ -63,7 +63,7 @@ class GameOver:
                 gui.screen.blit(textsurface_retry, (640, 300))
             terrain_obj.drawAll(screen)
             screen.blit(dinosour.over, (dinosour.character.player.x, 245))
-            screen.blit(cactus, (rex.player.x + 540, 268))
+            screen.blit(cactus, (rex.player.x + 550, 268))
             gui.display_game_over()
             for event in pygame.event.get():
                 if(GameOver.score == GameOver.result_score):
@@ -72,7 +72,7 @@ class GameOver:
                         if location[0] >= 110 and location[0] <= 155 and location[1] >= 260 and location[1]<=308:
                             settings.state = "gameRun"
                             return
-                        if location[0] >= 640 and location[0] <= 693 and location[1] >= 270 and location[1]<=310:
+                        if location[0] >= 650 and location[0] <= 703 and location[1] >= 270 and location[1]<=310:
                             settings.state = "gameSetting"
                             verOrigin.GameRun.init()
                             verItem.GameRun.init()

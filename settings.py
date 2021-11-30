@@ -129,6 +129,7 @@ cloud_obj = backgorund.ScenarioElement(sprite, cloud_rect, cloud_list_coord)
 cloud_game_speed_multi = 1
 cloud_x_limit = 0
 
+#아이템
 Shield_posx = [600]
 Shield_list_coord = [[x, 200] for x in Shield_posx]  # [ [700,350] , [1000,350] ]
 Shield_rect = (645, 75, 32, 32)

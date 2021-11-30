@@ -5,12 +5,11 @@ import sys
 
 class SetGame:     
     set_stop = False
-    set_state = "set_character"
+    set_state = "set_Mode"
     game_speed = 0.6
 
     def gameSet():
         SetGame.set_stop = False
-        SetGame.set_state = "set_Mode"
         while True:
             if (SetGame.set_state == "set_Character"):
                 SetGame.setCharacter()
@@ -192,6 +191,9 @@ class SetGame:
             goB_button = gui.font.render(f'[BACK]', False, LTGRAY)
             gui.screen.blit(goB_button, (40, 330))
 
+            btn_run = pygame.image.load(btn_set_run_image_path)
+            gui.screen.blit(btn_run, (300,330))
+
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     location = pygame.mouse.get_pos()
@@ -203,6 +205,10 @@ class SetGame:
                         dinosour.setCharacter(terzi, terzi_over)
                     if location[0] >= 590 and location[0] <= 770 and location[1] >= 326 and location[1]<=386:
                         SetGame.set_state = "set_Mode"
+                        return
+                    if location[0] >= 300 and location[0] <= 482 and location[1] >= 330 and location[1]<=385:
+                        settings.state = "loading"
+                        SetGame.set_stop = True
                         return
                     if location[0] >= 30 and location[0] <= 150 and location[1] >= 326 and location[1]<=386:
                         #settings.state = "in_main"
