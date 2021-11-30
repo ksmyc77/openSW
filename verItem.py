@@ -113,7 +113,7 @@ class GameRun:
                     element.Shield = False
                     items.useItem()
                 if not element.game_over:
-                    cactus_obj.Crash(cactus_x_start,cactus_y_start)
+                    cactus_obj.Crash(cactus_x_start, dinosour)
 
             if element.game_over:
                 #gui.display_game_over()
@@ -129,29 +129,35 @@ class GameRun:
                 items.getItem()
                 if(items.item_list[items.getIndex()] == shield):
                     element.Shield = True
-                if(items.item_list[items.getIndex()] == dash):
+                if(items.item_list[items.getIndex()] == dash and element.Dash == False):
                     element.Dash = True
-                    element.Dash_Target_Score = element.scores+100
+                    element.Dash_Target_Score = element.scores+50
                     element.game_speed += element.game_speed/20
                     element.now_speed = element.game_speed
+                if(items.item_list[items.getIndex()] == jump):
+                    element.JumpTwice = True
+                    element.Jump_Target_Score = element.scores + 100
+
+            if element.JumpTwice == True and element.Jump_Target_Score <= element.scores:
+                element.JumpTwice = False 
+
+            if element.Dash == True:
+                element.game_speed += element.game_speed/50
 
             if element.Dash == True and element.Dash_Target_Score <= element.scores:
                 element.game_speed -= element.game_speed/20
-                items.useItem()
-                element.Dash = False
+                if(element.game_speed <= element.now_speed):
+                    cactus_obj.Crash_dash(cactus_x_start, dinosour)
+                    items.useItem()
+                    element.Dash = False
 
+            #2회 점프 아이템
+            #if dinosour.character.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
+            #    element.JumpTwice = True
+            #    element.Jump_Target_Score = element.scores + 100
+            #if element.Dash == True and element.Jump_Target_Score <= element.scores:
+            #    element.JumpTwice = False        
 
-            #if dinosour.character.check_collision(player_rect, Shield_obj, obs_dx=5, obs_dy=10) :
-            #    element.Shield = True
-            #    Shield_obj.Crash(Shield_x_start,Shield_y_start)
-            #대쉬 아이템
-            #if dinosour.character.check_collision(player_rect, Dash_obj, obs_dx=5, obs_dy=10):
-            #    element.Dash = True
-            #    element.Dash_Target_Score = element.scores+100
-            #    element.game_speed += element.game_speed/20
-            #if element.Dash == True and element.Dash_Target_Score <= element.scores:
-            #    element.game_speed -= element.game_speed/20
-            #    element.Dash = False
             # 추가 포인트 아이템
             #if dinosour.character.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
             #    element.scores += 10
@@ -162,13 +168,6 @@ class GameRun:
             #if dinosour.character.check_collision(player_rect, Big_obj, obs_dx=5, obs_dy=10) :
             #    element.scores += 100
             #    Big_obj.Crash(Big_x_start,Big_y_start)
-            
-            #2회 점프 아이템
-            #if dinosour.character.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
-            #    element.JumpTwice = True
-            #    element.Jump_Target_Score = element.scores + 100
-            #if element.Dash == True and element.Jump_Target_Score <= element.scores:
-            #    element.JumpTwice = False
                 
             #100점 기준 배경 변경
             #if (scores % 400 == 0):
@@ -192,7 +191,6 @@ class GameRun:
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_y:
-                            cactus_obj.Crash(cactus_x_start,cactus_y_start)
                             GameRun.init()
                             break
                         if event.key == pygame.K_n:

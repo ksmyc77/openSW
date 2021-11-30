@@ -1,7 +1,6 @@
 from typing import Set
 from settings import *
 import settings
-import sys
 
 class SetGame:     
     set_stop = False

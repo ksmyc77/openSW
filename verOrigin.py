@@ -119,7 +119,6 @@ class GameRun:
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_y:
-                            cactus_obj.Crash(cactus_x_start,cactus_y_start)
                             GameRun.init()
                             break
                         if event.key == pygame.K_n:

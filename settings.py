@@ -147,6 +147,7 @@ jump = item.ItemElement(sprite, Jump_rect, 900, 200)
 
 items.addItem(shield)
 items.addItem(dash)
+items.addItem(jump)
 
 # 게임 모드 설정 함수
 def Mode_to_Normal() : # 무한 모드 설정

@@ -36,7 +36,7 @@ class GameOver:
         cactus_obj.drawAll(screen)
         terrain_obj.drawAll(screen)
         #screen.blit(dinosour.over, (rex.player.x, 245))
-        screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
+        screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, 245))
         gui.display_game_over()
         gui.display_game_retry()
 
@@ -66,7 +66,7 @@ class GameOver:
                 gui.screen.blit(textsurface_retry, (640, 300))
             terrain_obj.drawAll(screen)
             #screen.blit(dinosour.over, (dinosour.character.player.x, 245))
-            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
+            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, 245))
             screen.blit(cactus, (rex.player.x + 550, 268))
             gui.display_game_over()
             for event in pygame.event.get():

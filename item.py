@@ -44,14 +44,15 @@ class Items:
 
     def selectItem(self):
         self.index = random.randint(0, len(self.item_list)-1)
-        self.item_list[self.index].x = random.randint(900, 1000)
-        self.item_list[self.index].y = random.randint(230, 280)
+        self.item_list[self.index].x = random.randint(1500, 2000)
+        self.item_list[self.index].y = random.randint(150, 280)
 
     def init(self):
         self.selectItem()
         for i, coord in enumerate(self.item_list):
             self.item_list[i].x = random.randint(900, 1000)
-            self.item_list[i].y = random.randint(230, 280)
+            self.item_list[i].y = random.randint(150, 280)
+            self.item_list[i].use()
 
     def move(self, screen, game_speed, game_speed_multiplicator):
         if(self.item_list[self.index].isIN == True):
