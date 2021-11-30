@@ -35,6 +35,18 @@ class Display:
         self.screen.blit(charName, (x, y)) 
         self.screen.blit(charScore, (x, y + 32))
 
+    def display_title(self, title_u):
+        title = self.font.render(title_u, False, (0, 0, 0))
+        self.screen.blit(title, (300, 0))
+
+    def display_count(self, count):
+        pygame.draw.circle(self.screen, settings.DDKGRAY, [170, 210], 35)
+        pygame.draw.circle(self.screen, settings.DKGRAY, [170, 210], 30)
+        count_t = self.font.render(str(count), False, settings.WHITE)
+        if(count == "GO"):
+            self.screen.blit(count_t, (150, 188))
+        else:
+            self.screen.blit(count_t, (160, 190))
 
 class RGB:
     def __init__(self, r, g, b, a):

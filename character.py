@@ -16,3 +16,8 @@ class Player:
             if player_rect.colliderect(obstacle_rect):
                 self.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
                 return True
+
+class Character:
+    def setCharacter(self, c, overimg):
+        self.character = c
+        self.over = overimg

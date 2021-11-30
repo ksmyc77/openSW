@@ -11,6 +11,8 @@ import item
 WHITE = (255, 255, 255)
 LTGRAY = (195, 195, 195)
 DKGRAY = (127, 127, 127)
+BLACK = (0,0,0)
+DDKGRAY = (60, 60, 60)
 
 CENTER = (325, 175)
 
@@ -35,6 +37,30 @@ BASEDIR = os.path.dirname(os.path.abspath(__file__))
 
 # 각종 스프라이트 및 이미지 경로
 rex_sprite_path = os.path.join(BASEDIR, "images/sprites", "rex_alfa.png")
+paki_sprite_path = os.path.join(BASEDIR, "images/sprites", "paki_alfa.png")
+terzi_sprite_path = os.path.join(BASEDIR, "images/sprites", "terzi_alfa.png")
+
+#초기 게임 화면 및 게임 모드 설정
+state = 'in_main'
+game_mode  = 'normal'
+
+dino_path = os.path.join(BASEDIR, "images/img")
+rex_over_path = os.path.join(BASEDIR, "images/img", "rex_over.png")
+cactus_path = os.path.join(BASEDIR, "images/img", "cactus.png")
+sprite = pygame.image.load(rex_sprite_path).convert()
+rex = character.Player(rex_sprite_path)
+paki = character.Player(paki_sprite_path)
+terzi = character.Player(terzi_sprite_path)
+rex_over = pygame.image.load(rex_over_path)
+paki_over = pygame.image.load(os.path.join(dino_path, "paki_over.png"))
+terzi_over = pygame.image.load(os.path.join(dino_path, "terzi_over.png"))
+cactus = pygame.image.load(cactus_path)
+
+dinosour = character.Character()
+dinosour.setCharacter(rex, rex_over)
+rex_p = pygame.image.load(os.path.join(dino_path, "rex.png"))
+paki_p = pygame.image.load(os.path.join(dino_path, "paki.png"))
+terzi_p = pygame.image.load(os.path.join(dino_path, "terzi.png"))
 
 #통상 이미지 버튼
 btn_setting_path = os.path.join(BASEDIR, "images/isolated_frames", "btn_setting.png")
@@ -78,17 +104,6 @@ act_stage = pygame.image.load(act_stage_image_path).convert()
 act_race = pygame.image.load(act_race_image_path).convert()
 act_set_run = pygame.image.load(act_set_run_image_path).convert()
 act_home = pygame.image.load(act_home_image_path).convert()
-
-#초기 게임 화면 및 게임 모드 설정
-state = 'in_main'
-mode  = 'normal'
-
-rex_over_path = os.path.join(BASEDIR, "images/img", "over.png")
-cactus_path = os.path.join(BASEDIR, "images/img", "cactus.png")
-sprite = pygame.image.load(rex_sprite_path).convert()
-rex = character.Player(rex_sprite_path)
-rex_over = pygame.image.load(rex_over_path)
-cactus = pygame.image.load(cactus_path)
 
 # 장애물, 배경, 구름 설정
 cactus_posx = [600, 900, 1100, 1500]
