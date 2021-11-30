@@ -1,6 +1,7 @@
 from typing import Set
 from settings import *
 import settings
+import game
 
 class SetGame:     
     set_stop = False
@@ -78,6 +79,10 @@ class SetGame:
             #rect = pygame.Rect(320, 330, 182, 55)
             #pygame.draw.rect(screen, LTGRAY, rect)
 
+            user_name = gui.font.render(f'{game.element.name}', False, BLACK)
+            gui.screen.blit(user_name, (dinosour.character.player.x, dinosour.character.player.y-30))  
+
+
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     location = pygame.mouse.get_pos()
@@ -94,7 +99,7 @@ class SetGame:
                         return
                     if location[0] >= 30 and location[0] <= 150 and location[1] >= 326 and location[1]<=386:
                         #settings.state = "in_main"
-                        settings.state = "quit"
+                        settings.state = "main"
                         SetGame.set_stop = True
                         return
                 if event.type == pygame.KEYDOWN:
@@ -154,7 +159,7 @@ class SetGame:
             paki_r2 = pygame.Rect(x - 210, y+20, 140, 100)
             pygame.draw.rect(screen, WHITE, paki_r2)
             terzi_r2 = pygame.Rect(x + 230, y+20, 140, 100)
-            pygame.draw.rect(screen, WHITE, terzi_r2)
+            pygame.draw.rect(screen, WHITE, terzi_r2)           
 
             if(dinosour.character == rex):
                 #rex choice
@@ -211,7 +216,7 @@ class SetGame:
                         return
                     if location[0] >= 30 and location[0] <= 150 and location[1] >= 326 and location[1]<=386:
                         #settings.state = "in_main"
-                        settings.state = "quit"
+                        settings.state = "main"
                         SetGame.set_stop = True
                         return
                 if event.type == pygame.KEYDOWN:

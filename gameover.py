@@ -46,7 +46,7 @@ class GameOver:
         #sound_finish.play()
         dinosour.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
         with open("scores.txt", "a") as f:
-            f.write(str(game.name) + " ")
+            f.write(str(game.element.name) + " ")
             f.write(str(GameOver.result_score) + " ")
             f.write(str(1) + "\n")
             f.close()

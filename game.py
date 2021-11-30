@@ -1,7 +1,7 @@
 """
 Dino Runner Clone
 """
-from os import SEEK_SET
+from os import SEEK_SET, name
 import sys
 import time
 from typing import Tuple
@@ -36,10 +36,12 @@ class element:
     Jump_Target_Score = 0
     isJump = 0
     now_speed = game_speed
+    name = ""
 
 class MainMenu:
     def mainMenu():
         while True:
+            clock.tick(60)  # 60프레임
             surface.fill((255, 255, 255))
             screen.blit(surface, (0, 0))
 
@@ -48,7 +50,7 @@ class MainMenu:
             btn_wid = 136
             btn_hei = 50
 
-            terrain_obj.move(screen, element.game_speed, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
+            terrain_obj.move(screen, 0.6, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
 
             screen.blit(pygame.image.load(os.path.join(BASEDIR, "images/isolated_frames", "title.png")).convert(),(400-185,30))
 
@@ -60,48 +62,46 @@ class MainMenu:
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     location = pygame.mouse.get_pos()
                     if location[0] >= btn_x and location[0] <= btn_x + btn_wid and location[1] >= btn_y and location[1]<= btn_y + btn_hei:
+                        #settings.state = "input"
                         settings.state = "input"
+                        return
                     if location[0] >= btn_x and location[0] <= btn_x + btn_wid and location[1] >= btn_y + 60 and location[1]<= btn_y + btn_hei + 60:
                         settings.state = "ranking"
+                        return
                     if location[0] >= btn_x and location[0] <= btn_x + btn_wid and location[1] >= btn_y + 120 and location[1]<= btn_y + btn_hei + 120:
                         pygame.quit()
                 if event.type == pygame.QUIT :
                     pygame.quit()
                     sys.exit()
-
-            clock.tick(60)  # 60프레임
             pygame.display.update()
 
 class inputName():
     def inputing():
-        global name
-        name = ''
-
         while True:
             surface.fill((255, 255, 255))
             screen.blit(surface, (0, 0))
-
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
-                        name = name[:-1]
-                    elif event.key == pygame.K_RETURN:
-                        settings.state = "gamerun"
+                        element.name = element.name[:-1]
+                    if event.key == pygame.K_RETURN:
+                        settings.state = "gameSetting"
+                        return
                     else:
                         if not event.key == pygame.K_SPACE:
-                            name += event.unicode
+                            element.name += event.unicode
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            gui.display_text("Write your name and press Enter to start", 50, 100)       
-            gui.display_text(":" + name, 100, 140)
-
+            gui.display_text("Write your name and press Enter", 50, 100)       
+            gui.display_text(":" + element.name, 100, 140)
             clock.tick(60)  # 60프레임
             pygame.display.update()
 
 class Ranking:
     def ranking():
         while True:
+            clock.tick(60)
             surface.fill((255, 255, 255))
             screen.blit(surface, (0, 0))
 
@@ -158,6 +158,7 @@ class Ranking:
                         location = pygame.mouse.get_pos()
                         if location[0] >= btn_x and location[0] <= btn_x + btn_wid and location[1] >= btn_y and location[1]<= btn_y + btn_hei:
                             settings.state = "main"
+                            return
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
