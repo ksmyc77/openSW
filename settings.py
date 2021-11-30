@@ -42,7 +42,7 @@ terzi_sprite_path = os.path.join(BASEDIR, "images/sprites", "terzi_alfa.png")
 
 #초기 게임 화면 및 게임 모드 설정
 state = 'in_main'
-game_mode  = 'normal'
+game_mode  = 'origin'
 
 dino_path = os.path.join(BASEDIR, "images/img")
 rex_over_path = os.path.join(BASEDIR, "images/img", "rex_over.png")
@@ -114,6 +114,16 @@ cactus_game_speed_multi = 4
 cactus_x_limit = 0
 cactus_y_start = cactus_obj.coord_list[0][1]
 
+# 공중 장애물
+bird_posx = [50]
+bird_list_coord = [[x, 240] for x in bird_posx]  # [ [600,258] , [900,258] ] 258
+bird_rect = (210, 150, 60, 100)
+bird_obj = backgorund.ScenarioElement(sprite, bird_rect, bird_list_coord)
+bird_game_speed_multi = 4
+bird_x_limit = 0
+bird_y_start = bird_obj.coord_list[0][1]
+
+
 terrain_posx = [0, 480, 960]
 terrain_list_coord = [[x, 300] for x in terrain_posx]  # [ [0,300] , [480,300] , [960,300] ]
 terrain_rect = (20, 268, 540, 20)
@@ -173,8 +183,7 @@ def To_Ranking():
   state = 'in_rank'
 
 def To_Setting():
-  global state
-  state = 'in_setting'
+  return 'gamerun'
 
 def To_Run():
   global state, mode

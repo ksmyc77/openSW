@@ -6,6 +6,7 @@ import sys
 import settings
 import verOrigin
 import verItem
+import game
 
 class GameOver:
     score = 0
@@ -44,6 +45,12 @@ class GameOver:
         GameOver.init()
         #sound_finish.play()
         dinosour.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
+        with open("scores.txt", "a") as f:
+            f.write(str(game.name) + " ")
+            f.write(str(GameOver.result_score) + " ")
+            f.write(str(1) + "\n")
+            f.close()
+        #sound_finish.play()
         while True:
             clock.tick(60)
             surface.fill((255, 255, 255))
@@ -89,12 +96,35 @@ class GameOver:
                     pygame.quit()
                     sys.exit()
             pygame.display.update()
-                            
+
     def display_result():
+        temp = []
+        scores = []
+        with open("scores.txt", "r") as f:
+            text = f.read()
+            temp = text.split("\n")
+            del temp[len(temp) - 1]
+
+            for i in range(len(temp)):
+                temp2 = temp[i].split(" ")
+                scores.append(float(temp2[1]))
+            f.close()
+
+        for i in range(len(scores) - 1):
+            for j in range(len(scores) - 1 - i):
+                if scores[j] < scores[j+1]:
+                    scores[j], scores[j+1] = scores[j+1], scores[j]
+
+        for i in range(len(scores)):
+            if scores[i] == GameOver.result_score:
+                GameOver.rank = i + 1
+        
+        GameOver.high = scores[0]
+        
         text_rank = gui.font.render(f'Your Rank : {GameOver.rank}', False, (0, 0, 0))
         gui.screen.blit(text_rank, (290, 110))
         text_score = gui.font.render(f'Your Score : {GameOver.score}' , False, (0, 0, 0))
-        gui.screen.blit(text_score, (270, 180))
+        gui.screen.blit(text_score, (285, 180))
         text_score = gui.font.render(f'Your Highest Score : {GameOver.high}' , False, (0, 0, 0))
         gui.screen.blit(text_score, (220, 250))
         delay(GameOver.time_delay)
@@ -121,4 +151,3 @@ class GameOver:
                 delay(500)
                 GameOver.result_state = True
                 sound_jump.play()
-                

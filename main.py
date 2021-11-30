@@ -4,9 +4,10 @@ import verItem
 import setGame
 import settings
 import loading
+import game
 
 if __name__ == '__main__':
-    settings.state = "gameSetting"
+    settings.state = "main"
     settings.game_mode = "origin"
     while settings.state != "quit":
         if(settings.state == "gameSetting"):
@@ -24,3 +25,9 @@ if __name__ == '__main__':
         if(settings.state == "loading"):
             print("state : loading")
             loading.Loading.loadingGame()
+        if(settings.state == "main"):
+            game.MainMenu.mainMenu()
+        if(settings.state == "ranking"):
+            game.Ranking.ranking()
+        if(settings.state == "input"):
+            game.inputName.inputing()

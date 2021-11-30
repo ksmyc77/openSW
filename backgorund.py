@@ -14,9 +14,9 @@ class ScenarioElement:
             if coord[0] < x_limit:  # x값이 제한선을 만나면
                 x_last = self.coord_list[i-1][0]
                 if(x_start - x_last < 200 and x_start - x_last > 0):
-                    x_start += random.randint(180, 300)
+                    x_start += random.randint(200, 300)
                 elif(x_start - x_last <= 0):
-                    x_start  = x_last + random.randint(180, 300)
+                    x_start  = x_last + random.randint(200, 300)
             
                 # 스타트 값으로 재설정
                 self.coord_list[i][0] = x_start
@@ -27,9 +27,9 @@ class ScenarioElement:
             if(self.coord_list[i][0] > dino.character.player.x-60 and self.coord_list[i][0] < dino.character.player.x + 60):
                 x_last = self.coord_list[i-1][0]
                 if(x_start - x_last < 200 and x_start - x_last > 0):
-                    x_start += random.randint(180, 300)
+                    x_start += random.randint(200, 300)
                 elif(x_start - x_last <= 0):
-                    x_start  = x_last + random.randint(180, 300)
+                    x_start  = x_last + random.randint(200, 300)
                 self.coord_list[i][0] = x_start
     
     def Crash_dash(self, x_start, dino):

@@ -25,3 +25,12 @@ class Player:
 class Character:
     def setCharacter(self, c):
         self.character = c
+
+    def setSlide(self):
+        self.character.player.create_animation(10,167,60,70, "slide", duration=120, rows=1, cols=2)
+
+    def setRun(self):
+        self.character.player.create_animation(0,110,50,57, "run", duration=120, rows=1, cols=2)
+
+    def setDeath(self):
+        self.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)

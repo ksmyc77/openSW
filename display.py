@@ -31,7 +31,7 @@ class Display:
 
     def display_rank(self, name, score, x, y):
         charName = self.font.render(name, False, (0, 0, 0))
-        charScore = self.font.render(f'{score:.0f}', False, (0, 0, 0))
+        charScore = self.font.render(f'{score:.1f}', False, (0, 0, 0))
         self.screen.blit(charName, (x, y)) 
         self.screen.blit(charScore, (x, y + 32))
 
@@ -47,6 +47,11 @@ class Display:
             self.screen.blit(count_t, (150, 188))
         else:
             self.screen.blit(count_t, (160, 190))
+
+    def display_text(self, name, x, y):
+        charName = self.font.render(name, False, (0, 0, 0))
+        self.screen.blit(charName, (x, y)) 
+
 
 class RGB:
     def __init__(self, r, g, b, a):
