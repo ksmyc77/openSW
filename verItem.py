@@ -2,6 +2,7 @@
 Dino Runner Clone
 """
 from os import SEEK_SET
+from random import randint
 import sys
 import time
 from typing import Tuple
@@ -35,6 +36,7 @@ class element:
     JumpTwice = False
     Jump_Target_Score = 0
     isJump = 0
+    now_speed = game_speed
 
 class GameRun:
     def gameRun():
@@ -96,12 +98,8 @@ class GameRun:
             cactus_obj.move(screen, element.game_speed, cactus_game_speed_multi, cactus_x_limit , cactus_x_start, cactus_y_start)
             
             # 아이템을 움직이게 설정
-            Shield_obj.move(screen, element.game_speed, Shield_game_speed_multi, Shield_x_limit , Shield_x_start, Shield_y_start)
-            Dash_obj.move(screen, element.game_speed, Dash_game_speed_multi, Dash_x_limit , Dash_x_start, Dash_y_start)
-            Mini_obj.move(screen, element.game_speed, Mini_game_speed_multi, Mini_x_limit , Mini_x_start, Mini_y_start)
-            Middle_obj.move(screen, element.game_speed, Middle_game_speed_multi, Middle_x_limit , Middle_x_start, Middle_y_start)
-            Big_obj.move(screen, element.game_speed, Big_game_speed_multi, Big_x_limit , Big_x_start, Big_y_start)
-            Jump_obj.move(screen, element.game_speed, Jump_game_speed_multi, Jump_x_limit , Jump_x_start, Jump_y_start)
+            items.move(screen, element.game_speed + 0.4, 6)
+
             # 게임 설정
             dinosour.character.player.run("run")
             
@@ -113,6 +111,7 @@ class GameRun:
                     element.isRetry = True
                 elif element.Shield == True:
                     element.Shield = False
+                    items.useItem()
                 if not element.game_over:
                     cactus_obj.Crash(cactus_x_start,cactus_y_start)
 
@@ -126,34 +125,50 @@ class GameRun:
             
             # 아이템 획득 부분 및 해당 아이템 구동 부분
             #실드 아이템
-            if dinosour.character.check_collision(player_rect, Shield_obj, obs_dx=5, obs_dy=10) :
-                element.Shield = True
-                Shield_obj.Crash(Shield_x_start,Shield_y_start)
-            #대쉬 아이템
-            if dinosour.character.check_collision(player_rect, Dash_obj, obs_dx=5, obs_dy=10):
-                element.Dash = True
-                element.Dash_Target_Score = element.scores+100
-                element.game_speed += element.game_speed/20
+            if dinosour.character.check_collision_item(player_rect, items, obs_dx=5, obs_dy=10) :
+                items.getItem()
+                if(items.item_list[items.getIndex()] == shield):
+                    element.Shield = True
+                if(items.item_list[items.getIndex()] == dash):
+                    element.Dash = True
+                    element.Dash_Target_Score = element.scores+100
+                    element.game_speed += element.game_speed/20
+                    element.now_speed = element.game_speed
+
             if element.Dash == True and element.Dash_Target_Score <= element.scores:
                 element.game_speed -= element.game_speed/20
+                items.useItem()
                 element.Dash = False
+
+
+            #if dinosour.character.check_collision(player_rect, Shield_obj, obs_dx=5, obs_dy=10) :
+            #    element.Shield = True
+            #    Shield_obj.Crash(Shield_x_start,Shield_y_start)
+            #대쉬 아이템
+            #if dinosour.character.check_collision(player_rect, Dash_obj, obs_dx=5, obs_dy=10):
+            #    element.Dash = True
+            #    element.Dash_Target_Score = element.scores+100
+            #    element.game_speed += element.game_speed/20
+            #if element.Dash == True and element.Dash_Target_Score <= element.scores:
+            #    element.game_speed -= element.game_speed/20
+            #    element.Dash = False
             # 추가 포인트 아이템
-            if dinosour.character.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
-                element.scores += 10
-                Mini_obj.Crash(Mini_x_start,Mini_y_start)
-            if dinosour.character.check_collision(player_rect, Middle_obj, obs_dx=5, obs_dy=10) :
-                element.scores += 50
-                Middle_obj.Crash(Middle_x_start,Middle_y_start)
-            if dinosour.character.check_collision(player_rect, Big_obj, obs_dx=5, obs_dy=10) :
-                element.scores += 100
-                Big_obj.Crash(Big_x_start,Big_y_start)
+            #if dinosour.character.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
+            #    element.scores += 10
+            #    Mini_obj.Crash(Mini_x_start,Mini_y_start)
+            #if dinosour.character.check_collision(player_rect, Middle_obj, obs_dx=5, obs_dy=10) :
+            #    element.scores += 50
+            #    Middle_obj.Crash(Middle_x_start,Middle_y_start)
+            #if dinosour.character.check_collision(player_rect, Big_obj, obs_dx=5, obs_dy=10) :
+            #    element.scores += 100
+            #    Big_obj.Crash(Big_x_start,Big_y_start)
             
             #2회 점프 아이템
-            if dinosour.character.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
-                element.JumpTwice = True
-                element.Jump_Target_Score = element.scores + 100
-            if element.Dash == True and element.Jump_Target_Score <= element.scores:
-                element.JumpTwice = False
+            #if dinosour.character.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
+            #    element.JumpTwice = True
+            #    element.Jump_Target_Score = element.scores + 100
+            #if element.Dash == True and element.Jump_Target_Score <= element.scores:
+            #    element.JumpTwice = False
                 
             #100점 기준 배경 변경
             #if (scores % 400 == 0):
@@ -212,3 +227,4 @@ class GameRun:
         cactus_obj.coord_list[2][0] = 1100
         cactus_obj.coord_list[3][0] = 1500
         dinosour.character.player.run("run")
+        items.init()

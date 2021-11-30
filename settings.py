@@ -57,7 +57,7 @@ terzi_over = pygame.image.load(os.path.join(dino_path, "terzi_over.png"))
 cactus = pygame.image.load(cactus_path)
 
 dinosour = character.Character()
-dinosour.setCharacter(rex, rex_over)
+dinosour.setCharacter(rex)
 rex_p = pygame.image.load(os.path.join(dino_path, "rex.png"))
 paki_p = pygame.image.load(os.path.join(dino_path, "paki.png"))
 terzi_p = pygame.image.load(os.path.join(dino_path, "terzi.png"))
@@ -130,59 +130,23 @@ cloud_game_speed_multi = 1
 cloud_x_limit = 0
 
 #아이템
-Shield_posx = [600]
-Shield_list_coord = [[x, 200] for x in Shield_posx]  # [ [700,350] , [1000,350] ]
+items = item.Items()
+
 Shield_rect = (645, 75, 32, 32)
-Shield_obj = item.ItemElement(sprite, Shield_rect, Shield_list_coord)
-Shield_game_speed_multi = 6
-Shield_x_limit = 100
-Shield_x_start = random.randint(800, 5000)
-Shield_y_start = Shield_obj.coord_list[0][1]
-
-Dash_posx = [3500]
-Dash_list_coord = [[x, 258] for x in Dash_posx]  # [ [700,350] , [1000,350] ]
 Dash_rect = (645, 107, 32, 32)
-Dash_obj = item.ItemElement(sprite, Dash_rect, Dash_list_coord)
-Dash_game_speed_multi = 6
-Dash_x_limit = 100
-Dash_x_start = random.randint(700, 6000)
-Dash_y_start = Dash_obj.coord_list[0][1]
-
-Mini_posx = [1500]
-Mini_list_coord = [[x, 258] for x in Mini_posx]  # [ [700,350] , [1000,350] ]
 Mini_rect = (645, 139, 32, 32)
-Mini_obj = item.ItemElement(sprite, Mini_rect, Mini_list_coord)
-Mini_game_speed_multi = 6
-Mini_x_limit = 100
-Mini_x_start = random.randint(700, 3000)
-Mini_y_start = Mini_obj.coord_list[0][1]
-
-Middle_posx = [4000]
-Middle_list_coord = [[x, 258] for x in Middle_posx]  # [ [700,350] , [1000,350] ]
 Middle_rect = (645, 171, 32, 32)
-Middle_obj = item.ItemElement(sprite, Middle_rect, Middle_list_coord)
-Middle_game_speed_multi = 6
-Middle_x_limit = 100
-Middle_x_start = random.randint(3000, 6000)
-Middle_y_start = Middle_obj.coord_list[0][1]
-
-Big_posx = [6500]
-Big_list_coord = [[x, 258] for x in Big_posx]  # [ [700,350] , [1000,350] ]
 Big_rect = (645, 203, 32, 32)
-Big_obj = item.ItemElement(sprite, Big_rect, Big_list_coord)
-Big_game_speed_multi = 6
-Big_x_limit = 100
-Big_x_start = random.randint(6000, 9000)
-Big_y_start = Big_obj.coord_list[0][1]
-
-Jump_posx = [4000]
-Jump_list_coord = [[x, 258] for x in Jump_posx]  # [ [700,350] , [1000,350] ]
 Jump_rect = (645, 235, 32, 32)
-Jump_obj = item.ItemElement(sprite, Jump_rect, Jump_list_coord)
-Jump_game_speed_multi = 6
-Jump_x_limit = 100
-Jump_x_start = random.randint(4000, 9000)
-Jump_y_start = Jump_obj.coord_list[0][1]
+shield = item.ItemElement(sprite, Shield_rect, 900, 200)
+dash = item.ItemElement(sprite, Dash_rect, 900, 200)
+mini = item.ItemElement(sprite, Mini_rect, 900, 200)
+middle = item.ItemElement(sprite, Middle_rect, 900, 200)
+big = item.ItemElement(sprite, Big_rect, 900, 200)
+jump = item.ItemElement(sprite, Jump_rect, 900, 200)
+
+items.addItem(shield)
+items.addItem(dash)
 
 # 게임 모드 설정 함수
 def Mode_to_Normal() : # 무한 모드 설정

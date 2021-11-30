@@ -30,17 +30,20 @@ class GameOver:
         GameOver.result_score = score
 
     def over():
+        dinosour.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
         surface.fill((255, 255, 255))
         screen.blit(surface, (0, 0))
         cactus_obj.drawAll(screen)
         terrain_obj.drawAll(screen)
-        screen.blit(dinosour.over, (rex.player.x, 245))
+        #screen.blit(dinosour.over, (rex.player.x, 245))
+        screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
         gui.display_game_over()
         gui.display_game_retry()
 
     def overRun():
         GameOver.init()
         #sound_finish.play()
+        dinosour.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
         while True:
             clock.tick(60)
             surface.fill((255, 255, 255))
@@ -62,7 +65,8 @@ class GameOver:
                 textsurface_retry = gui.font.render(f'Home', False ,(0,0,0))
                 gui.screen.blit(textsurface_retry, (640, 300))
             terrain_obj.drawAll(screen)
-            screen.blit(dinosour.over, (dinosour.character.player.x, 245))
+            #screen.blit(dinosour.over, (dinosour.character.player.x, 245))
+            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
             screen.blit(cactus, (rex.player.x + 550, 268))
             gui.display_game_over()
             for event in pygame.event.get():
