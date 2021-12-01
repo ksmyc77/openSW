@@ -85,7 +85,7 @@ class inputName():
             screen.blit(dinosour.character.player.update_surface(), (380, dinosour.character.player.early_Y))
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_BACKSPACE:
+                    if event.key == pygame.K_BACKSPACE :
                         element.name = element.name[0:len(element.name)-1]
                         max += 1
                     if event.key == pygame.K_RETURN:
