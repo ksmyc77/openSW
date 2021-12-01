@@ -131,7 +131,7 @@ cactus_y_start = cactus_obj.coord_list[0][1]
 
 # 공중 장애물
 bird_posx = [1000]
-bird_list_coord = [[x, 148] for x in bird_posx]  # [ [600,258] , [900,258] ] 258
+bird_list_coord = [[x, 143] for x in bird_posx]  # [ [600,258] , [900,258] ] 258
 bird_rect = (210, 150, 60, 100)
 bird_obj = backgorund.ScenarioElement(sprite, bird_rect, bird_list_coord)
 bird_game_speed_multi = 4

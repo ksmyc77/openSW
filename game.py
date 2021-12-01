@@ -87,7 +87,8 @@ class inputName():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
                         element.name = element.name[0:len(element.name)-1]
-                        max += 1
+                        if max < 5:
+                            max += 1
                     if event.key == pygame.K_RETURN:
                         settings.state = "gameSetting"
                         return
