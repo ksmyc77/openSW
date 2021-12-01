@@ -12,4 +12,4 @@ class BtnClass :
         time.sleep(1)
         action()
     else :
-      screen.blit(img_in,(x,y))
+      screen.blit(img_in,(x,y))#
