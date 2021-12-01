@@ -36,6 +36,7 @@ class element:
     JumpTwice = False
     Jump_Target_Score = 0
     isJump = 0
+    isSlide = False
     now_speed = game_speed
 
 class GameRun:
@@ -73,11 +74,13 @@ class GameRun:
                                 element.velocidade = -45  # 점프 높이 설정
                                 dinosour.character.player.y = dinosour.character.player.y
                                 element.gravity = 10
-                            if event.key == pygame.K_DOWN or event.key == pygame.K_d:
-                                dinosour.setSlide()
+                        if event.key == pygame.K_DOWN or event.key == pygame.K_d:
+                            dinosour.setSlide()
+                            element.isSlide = True
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setRun()
+                            element.isSlide = False
             t = time.time() - element.time1
             if element.velocidade < 100 and dinosour.character.player.y <= 250:
                 if element.velocidade > 0:
@@ -88,7 +91,10 @@ class GameRun:
                 dinosour.character.player.y = 250
 
             # 4-4. 그리기
-            player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y, 26, 60) # 이게 메인루프 안에 있어야지만 충돌을 감지함..
+            if(element.isSlide == False):
+                player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 10, 26, 50)
+            else:
+                player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 28, 26, 26)
             surface.fill(skycolor.getColor())
             screen.blit(surface, (0, 0))
             gui.display_score(element.scores)
@@ -97,19 +103,18 @@ class GameRun:
             cactus_x_start = random.randint(800, 1100)
             cloud_x_start = random.randint(800, 1200)
             cloud_y_start = random.randint(20, 200)
+            bird_x_start = random.randint(800, 2000)
             # 장애물, 배경, 구름을 움직이게 설정
             terrain_obj.move(screen, element.game_speed, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
             cloud_obj.move(screen, element.game_speed, cloud_game_speed_multi, cloud_x_limit, cloud_x_start , cloud_y_start)
             cactus_obj.move(screen, element.game_speed, cactus_game_speed_multi, cactus_x_limit , cactus_x_start, cactus_y_start)
-            
+            bird_obj.move(screen, element.game_speed, bird_game_speed_multi + 0.8, bird_x_limit, bird_x_start, bird_y_start)
+
             # 아이템을 움직이게 설정
             items.move(screen, element.game_speed + 0.4, 6)
-
-            # 게임 설정
-            dinosour.character.player.run("run")
             
             #캐릭터와 장애물간 충돌 
-            if dinosour.character.check_collision(player_rect, cactus_obj, obs_dx=10, obs_dy=15):
+            if dinosour.character.check_collision(player_rect, cactus_obj):
                 sound_hit.play()
                 if element.Shield == False and element.Dash == False:
                     element.game_over = True
@@ -120,9 +125,21 @@ class GameRun:
                 if not element.game_over:
                     cactus_obj.Crash(cactus_x_start, dinosour)
 
+            if dinosour.character.check_collision_bird(player_rect, bird_obj):
+                sound_hit.play()
+                if element.Shield == False and element.Dash == False:
+                    element.game_over = True
+                    element.isRetry = True
+                elif element.Shield == True:
+                    element.Shield = False
+                    items.useItem()
+                if not element.game_over:
+                    bird_obj.Crash(cactus_x_start, dinosour)
+
             if element.game_over:
                 #gui.display_game_over()
                 #game_speed = 0
+                dinosour.setDeath()
                 gameover.GameOver.over()
 
             if not element.game_over:
@@ -153,15 +170,9 @@ class GameRun:
                 element.game_speed -= element.game_speed/20
                 if(element.game_speed <= element.now_speed):
                     cactus_obj.Crash_dash(cactus_x_start, dinosour)
+                    bird_obj.Crash_dash(bird_x_start, dinosour)
                     items.useItem()
-                    element.Dash = False
-
-            #2회 점프 아이템
-            #if dinosour.character.check_collision(player_rect, Jump_obj, obs_dx=5, obs_dy=10):
-            #    element.JumpTwice = True
-            #    element.Jump_Target_Score = element.scores + 100
-            #if element.Dash == True and element.Jump_Target_Score <= element.scores:
-            #    element.JumpTwice = False        
+                    element.Dash = False       
 
             # 추가 포인트 아이템
             #if dinosour.character.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
@@ -223,13 +234,16 @@ class GameRun:
         element.JumpTwice = False
         element.Jump_Target_Score = 0
         element.isJump = 0
+        element.isSlide = False
         dinosour.run.player.y = 250
         dinosour.slide.player.y = 250
+        dinosour.death.player.y = 250
         terrain_obj.Yinit()
         cactus_obj.coord_list[0][0] = 600
         cactus_obj.coord_list[1][0] = 900
         cactus_obj.coord_list[2][0] = 1100
         cactus_obj.coord_list[3][0] = 1500
+        bird_obj.coord_list[0][0] = 1000
         dinosour.character.player.run("run")
         items.init()
         dinosour.setRun()

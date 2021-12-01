@@ -29,5 +29,5 @@ if __name__ == '__main__':
             game.MainMenu.mainMenu()
         if(settings.state == "ranking"):
             game.Ranking.ranking()
-        if(settings.state == "input"):
+        if(settings.state == "input"):  
             game.inputName.inputing()

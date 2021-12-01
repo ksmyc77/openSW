@@ -45,19 +45,21 @@ state = 'in_main'
 game_mode  = 'origin'
 
 dino_path = os.path.join(BASEDIR, "images/img")
-rex_over_path = os.path.join(BASEDIR, "images/img", "rex_over.png")
 cactus_path = os.path.join(BASEDIR, "images/img", "cactus.png")
 sprite = pygame.image.load(rex_sprite_path).convert()
 rex = character.Player(rex_sprite_path, "run")
 rex_s = character.Player(rex_sprite_path, "slide")
+rex_d = character.Player(rex_sprite_path, "death")
 paki = character.Player(paki_sprite_path, "run")
 paki_s = character.Player(paki_sprite_path, "slide")
+paki_d = character.Player(paki_sprite_path, "death")
 terzi = character.Player(terzi_sprite_path, "run")
 terzi_s = character.Player(terzi_sprite_path, "slide")
+terzi_d = character.Player(terzi_sprite_path, "death")
 cactus = pygame.image.load(cactus_path)
 
 dinosour = character.Character()
-dinosour.setCharacter(rex, rex_s)
+dinosour.setCharacter(rex, rex_s, rex_d, "rex")
 rex_p = pygame.image.load(os.path.join(dino_path, "rex.png"))
 paki_p = pygame.image.load(os.path.join(dino_path, "paki.png"))
 terzi_p = pygame.image.load(os.path.join(dino_path, "terzi.png"))
@@ -115,8 +117,8 @@ cactus_x_limit = 0
 cactus_y_start = cactus_obj.coord_list[0][1]
 
 # 공중 장애물
-bird_posx = [50]
-bird_list_coord = [[x, 240] for x in bird_posx]  # [ [600,258] , [900,258] ] 258
+bird_posx = [1000]
+bird_list_coord = [[x, 148] for x in bird_posx]  # [ [600,258] , [900,258] ] 258
 bird_rect = (210, 150, 60, 100)
 bird_obj = backgorund.ScenarioElement(sprite, bird_rect, bird_list_coord)
 bird_game_speed_multi = 4

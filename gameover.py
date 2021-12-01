@@ -15,8 +15,8 @@ class GameOver:
     timing = 0
 
     #temporary
-    result_rank = 32
-    high = 300
+    result_rank = 0
+    high = 0
     time_delay = 50
     result_state = False
 
@@ -24,18 +24,18 @@ class GameOver:
         GameOver.score = 0
         GameOver.rank = "???"
         GameOver.timing = 0
-        GameOver.time_delay = 10
+        GameOver.time_delay = 50
         GameOver.result_state = False
 
     def saveScore(score):
         GameOver.result_score = score
 
     def over():
-        dinosour.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
         surface.fill((255, 255, 255))
         screen.blit(surface, (0, 0))
         cactus_obj.drawAll(screen)
         terrain_obj.drawAll(screen)
+        bird_obj.drawAll(screen)
         #screen.blit(dinosour.over, (rex.player.x, 245))
         screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, 250))
         gui.display_game_over()
@@ -44,13 +44,16 @@ class GameOver:
     def overRun():
         GameOver.init()
         #sound_finish.play()
-        dinosour.character.player.create_animation(64, 34, 50, 57, False, duration=120, rows=1, cols=1)
-        with open("scores.txt", "a") as f:
-            f.write(str(game.element.name) + " ")
-            f.write(str(GameOver.result_score) + " ")
-            f.write(str(1) + "\n")
-            f.close()
+        dinosour.setDeath()
+        #with open(settings.game_mode + "Scores.txt", "a") as f:
+        #    f.write(str(game.element.name) + " ")
+        #    f.write(str(GameOver.result_score) + " ")
+        #    f.write(str(1) + " ")
+        #    f.write(str(dinosour.dino) + "\n")
+        #    f.close()
         #sound_finish.play()
+        GameOver.store_result()
+        GameOver.calculate_result()
         while True:
             clock.tick(60)
             surface.fill((255, 255, 255))
@@ -97,10 +100,37 @@ class GameOver:
                     sys.exit()
             pygame.display.update()
 
-    def display_result():
+    def store_result():
+        context = ""
+        with open(settings.game_mode + "Scores.txt", "r") as f:
+            text = f.read().split("\n")
+            del text[len(text) - 1]
+
+            con = ""
+            same = False
+            for i in range(len(text)):
+                print(text[i])
+                text1 = text[i].split(" ")
+                if(game.element.name == text1[0]):
+                    con = game.element.name + " " + str(GameOver.result_score) + " " + str(1) + " " + dinosour.dino + "\n" 
+                    same = True
+                else:
+                    con = text[i] + "\n"
+                context += con
+            f.close()
+        if same == False:
+            con = game.element.name + " " + str(GameOver.result_score) + " " + str(1) + " " + dinosour.dino + "\n" 
+            context += con
+
+        with open(settings.game_mode + "Scores.txt", "w") as f:
+            f.write(context)
+            f.close()
+
+
+    def calculate_result():
         temp = []
         scores = []
-        with open("scores.txt", "r") as f:
+        with open(settings.game_mode + "Scores.txt", "r") as f:
             text = f.read()
             temp = text.split("\n")
             del temp[len(temp) - 1]
@@ -117,10 +147,18 @@ class GameOver:
 
         for i in range(len(scores)):
             if scores[i] == GameOver.result_score:
-                GameOver.rank = i + 1
-        
-        GameOver.high = scores[0]
-        
+                GameOver.result_rank = i + 1
+
+        if(GameOver.score != GameOver.result_score):
+            if(scores[0] != GameOver.result_score):
+                GameOver.high = scores[0]
+            else:
+                if(len(scores) > 1):
+                    GameOver.high = scores[1]
+                else:
+                    GameOver.high = 0
+
+    def display_result():       
         text_rank = gui.font.render(f'Your Rank : {GameOver.rank}', False, (0, 0, 0))
         gui.screen.blit(text_rank, (290, 110))
         text_score = gui.font.render(f'Your Score : {GameOver.score}' , False, (0, 0, 0))
@@ -145,7 +183,7 @@ class GameOver:
                 sound_jump.play()
             if(GameOver.score > GameOver.high and GameOver.timing == 5):
                 delay(500) 
-                GameOver.high = GameOver.score   
+                GameOver.high = GameOver.result_score   
                 sound_jump.play()
             if(GameOver.timing == 7):
                 delay(500)
