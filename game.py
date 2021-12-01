@@ -108,6 +108,10 @@ class inputName():
 
 class Ranking:
     def ranking():
+        for i in range(3):
+            rexs[i].player.y = rexs[i].player.early_Y
+            pakis[i].player.y = pakis[i].player.early_Y
+            terzis[i].player.y = terzis[i].player.early_Y
         while True:
             clock.tick(60)
             surface.fill((255, 255, 255))
@@ -188,21 +192,20 @@ class Ranking:
             if(user_dino[0].type == "rex"):
                 y = 185
             else:
-                y = dinosour.character.player.early_Y - 54
+                y = 198
             screen.blit(user_dino[0].player.update_surface(), (375, y))
 
             if(user_dino[1].type == "rex"):
                 y = 231
             else:
-                y = dinosour.character.player.early_Y-7
+                y = 244
             screen.blit(user_dino[1].player.update_surface(), (227, y))
 
             if(user_dino[2].type == "rex"):
                 y = 231
             else:
-                y = dinosour.character.player.early_Y-6
+                y = 245
             screen.blit(user_dino[2].player.update_surface(), (523, y))
-
             pygame.display.update()
 
             for event in pygame.event.get():
