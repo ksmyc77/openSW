@@ -177,16 +177,6 @@ class GameRun:
                     bird_obj.Crash_dash(bird_x_start, dinosour)
                     items.useItem()
                     element.Dash = False       
-                
-            #100점 기준 배경 변경
-            #if (scores % 400 == 0):
-            #    skycolor.setColor(255, 255, 255, 255)
-            #elif (scores % 400 == 100):
-            #    skycolor.setColor(241, 95, 95, 255)
-            #elif (scores % 400 == 200):
-            #    skycolor.setColor(53, 53, 53, 255)
-            #elif (scores % 400 == 300):
-            #    skycolor.setColor(165, 102, 255, 255)
 
             #400점 기준 속력 상승
             if (element.scores % 400 == 1):
