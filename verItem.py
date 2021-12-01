@@ -35,17 +35,13 @@ class element:
     Dash_Target_Score = 0
     JumpTwice = False
     Jump_Target_Score = 0
+    Plus = "false"
     isJump = 0
     isSlide = False
     now_speed = game_speed
 
 class GameRun:
     def gameRun():
-        skyR = 255
-        skyG = 255
-        skyB = 255
-        skycolor = RGB(skyR, skyG, skyB, 255)
-        j = 3
         GameRun.init()
         # 4. 메인 이벤트
         while True:
@@ -62,11 +58,11 @@ class GameRun:
                     if event.type == pygame.KEYDOWN:
                         # 윗 방향키도 점프 추가
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
-                            if dinosour.character.player.y >= 250:
+                            if dinosour.character.player.y >= dinosour.character.player.early_Y:
                                 sound_jump.play()
                                 element.time1 = time.time()
                                 element.velocidade = -45  # 점프 높이 설정
-                                dinosour.character.player.y = 250
+                                dinosour.character.player.y = dinosour.character.player.early_Y
                                 element.gravity = 10
                             if element.JumpTwice == True :
                                 sound_jump.play()
@@ -74,31 +70,39 @@ class GameRun:
                                 element.velocidade = -45  # 점프 높이 설정
                                 dinosour.character.player.y = dinosour.character.player.y
                                 element.gravity = 10
+                            element.isJump = True
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setSlide()
                             element.isSlide = True
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setRun()
+                            if dinosour.character.player.y == dinosour.slide.player.early_Y:
+                                dinosour.character.player.y = dinosour.character.player.early_Y
                             element.isSlide = False
             t = time.time() - element.time1
-            if element.velocidade < 100 and dinosour.character.player.y <= 250:
+            if element.velocidade < 100 and dinosour.character.player.y <= dinosour.character.player.early_Y:
                 if element.velocidade > 0:
                     element.gravity = 5
                 dinosour.character.player.y += (int(element.velocidade * t))
                 element.velocidade += element.gravity * t
-            if dinosour.character.player.y > 250:
-                dinosour.character.player.y = 250
+            if dinosour.character.player.y > dinosour.character.player.early_Y:
+                dinosour.character.player.y = dinosour.character.player.early_Y
 
             # 4-4. 그리기
             if(element.isSlide == False):
-                player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 10, 26, 50)
+                if dinosour.dino == "rex":
+                    player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 10, 26, 50)
+                else:
+                    player_rect = pygame.Rect(dinosour.character.player.x +2, dinosour.character.player.y, 38, 43)
             else:
-                player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 28, 26, 26)
-            surface.fill(skycolor.getColor())
+                if dinosour.dino == "rex":
+                    player_rect = pygame.Rect(dinosour.character.player.x + 10, dinosour.character.player.y + 28, 26, 26)
+                else:
+                    player_rect = pygame.Rect(dinosour.character.player.x + 5, dinosour.character.player.y + 28, 50, 22)
+            surface.fill(WHITE)
             screen.blit(surface, (0, 0))
             gui.display_score(element.scores)
-            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
 
             cactus_x_start = random.randint(800, 1100)
             cloud_x_start = random.randint(800, 1200)
@@ -109,7 +113,7 @@ class GameRun:
             cloud_obj.move(screen, element.game_speed, cloud_game_speed_multi, cloud_x_limit, cloud_x_start , cloud_y_start)
             cactus_obj.move(screen, element.game_speed, cactus_game_speed_multi, cactus_x_limit , cactus_x_start, cactus_y_start)
             bird_obj.move(screen, element.game_speed, bird_game_speed_multi + 0.8, bird_x_limit, bird_x_start, bird_y_start)
-
+            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
             # 아이템을 움직이게 설정
             items.move(screen, element.game_speed + 0.4, 6)
             
@@ -173,17 +177,6 @@ class GameRun:
                     bird_obj.Crash_dash(bird_x_start, dinosour)
                     items.useItem()
                     element.Dash = False       
-
-            # 추가 포인트 아이템
-            #if dinosour.character.check_collision(player_rect, Mini_obj, obs_dx=5, obs_dy=10) :
-            #    element.scores += 10
-            #    Mini_obj.Crash(Mini_x_start,Mini_y_start)
-            #if dinosour.character.check_collision(player_rect, Middle_obj, obs_dx=5, obs_dy=10) :
-            #    element.scores += 50
-            #    Middle_obj.Crash(Middle_x_start,Middle_y_start)
-            #if dinosour.character.check_collision(player_rect, Big_obj, obs_dx=5, obs_dy=10) :
-            #    element.scores += 100
-            #    Big_obj.Crash(Big_x_start,Big_y_start)
                 
             #100점 기준 배경 변경
             #if (scores % 400 == 0):
@@ -235,9 +228,9 @@ class GameRun:
         element.Jump_Target_Score = 0
         element.isJump = 0
         element.isSlide = False
-        dinosour.run.player.y = 250
-        dinosour.slide.player.y = 250
-        dinosour.death.player.y = 250
+        dinosour.run.player.y = dinosour.character.player.early_Y
+        dinosour.slide.player.y = dinosour.character.player.early_Y
+        dinosour.death.player.y = dinosour.character.player.early_Y
         terrain_obj.Yinit()
         cactus_obj.coord_list[0][0] = 600
         cactus_obj.coord_list[1][0] = 900

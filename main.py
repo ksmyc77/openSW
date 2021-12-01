@@ -7,8 +7,6 @@ import loading
 import game
 
 if __name__ == '__main__':
-    settings.state = "main"
-    settings.game_mode = "origin"
     while settings.state != "quit":
         if(settings.state == "gameSetting"):
             print("state : set")

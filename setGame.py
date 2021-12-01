@@ -39,7 +39,7 @@ class SetGame:
             surface.fill(WHITE)
             screen.blit(surface, (0, 0))
             gui.display_title("Choose Game Mode")
-            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
+            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.early_Y))
             terrain_obj.move(screen, SetGame.game_speed, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
 
             rect_m = pygame.Rect(590, 326, 180, 60)
@@ -81,7 +81,7 @@ class SetGame:
             #pygame.draw.rect(screen, LTGRAY, rect)
 
             user_name = gui.font.render(f'{game.element.name}', False, BLACK)
-            gui.screen.blit(user_name, (dinosour.character.player.x, dinosour.character.player.y-40))  
+            gui.screen.blit(user_name, (dinosour.character.player.x, dinosour.character.player.early_Y-40))  
 
 
             for event in pygame.event.get():

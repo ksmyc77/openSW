@@ -1,4 +1,3 @@
-
 import pygame
 import random
 import os
@@ -13,7 +12,6 @@ LTGRAY = (195, 195, 195)
 DKGRAY = (127, 127, 127)
 BLACK = (0,0,0)
 DDKGRAY = (60, 60, 60)
-
 CENTER = (325, 175)
 
 # 1. 게임 초기화
@@ -41,22 +39,37 @@ paki_sprite_path = os.path.join(BASEDIR, "images/sprites", "paki_alfa.png")
 terzi_sprite_path = os.path.join(BASEDIR, "images/sprites", "terzi_alfa.png")
 
 #초기 게임 화면 및 게임 모드 설정
-state = 'in_main'
+state = 'main'
 game_mode  = 'origin'
 
 dino_path = os.path.join(BASEDIR, "images/img")
 cactus_path = os.path.join(BASEDIR, "images/img", "cactus.png")
 sprite = pygame.image.load(rex_sprite_path).convert()
-rex = character.Player(rex_sprite_path, "run")
-rex_s = character.Player(rex_sprite_path, "slide")
-rex_d = character.Player(rex_sprite_path, "death")
-paki = character.Player(paki_sprite_path, "run")
-paki_s = character.Player(paki_sprite_path, "slide")
-paki_d = character.Player(paki_sprite_path, "death")
-terzi = character.Player(terzi_sprite_path, "run")
-terzi_s = character.Player(terzi_sprite_path, "slide")
-terzi_d = character.Player(terzi_sprite_path, "death")
+rex = character.Player(rex_sprite_path, "run", "rex")
+rex_s = character.Player(rex_sprite_path, "slide", "rex")
+rex_d = character.Player(rex_sprite_path, "death", "rex")
+paki = character.Player(paki_sprite_path, "run", "paki")
+paki_s = character.Player(paki_sprite_path, "slide", "paki")
+paki_d = character.Player(paki_sprite_path, "death", "paki")
+terzi = character.Player(terzi_sprite_path, "run", "terzi")
+terzi_s = character.Player(terzi_sprite_path, "slide", "terzi")
+terzi_d = character.Player(terzi_sprite_path, "death", "terzi")
 cactus = pygame.image.load(cactus_path)
+
+rex1 = character.Player(rex_sprite_path, "run", "rex")
+rex2 = character.Player(rex_sprite_path, "run", "rex")
+rex3 = character.Player(rex_sprite_path, "run", "rex")
+rexs = [rex1, rex2, rex3]
+
+paki1 = character.Player(paki_sprite_path, "run", "paki")
+paki2 = character.Player(paki_sprite_path, "run", "paki")
+paki3 = character.Player(paki_sprite_path, "run", "paki")
+pakis = [paki1, paki2, paki3]
+
+terzi1 = character.Player(terzi_sprite_path, "run", "terzi")
+terzi2 = character.Player(terzi_sprite_path, "run", "terzi")
+terzi3 = character.Player(terzi_sprite_path, "run", "terzi")
+terzis = [terzi1, terzi2, terzi3]
 
 dinosour = character.Character()
 dinosour.setCharacter(rex, rex_s, rex_d, "rex")
@@ -125,7 +138,6 @@ bird_game_speed_multi = 4
 bird_x_limit = 0
 bird_y_start = bird_obj.coord_list[0][1]
 
-
 terrain_posx = [0, 480, 960]
 terrain_list_coord = [[x, 300] for x in terrain_posx]  # [ [0,300] , [480,300] , [960,300] ]
 terrain_rect = (20, 268, 540, 20)
@@ -146,56 +158,14 @@ items = item.Items()
 
 Shield_rect = (645, 75, 32, 32)
 Dash_rect = (645, 107, 32, 32)
-Mini_rect = (645, 139, 32, 32)
-Middle_rect = (645, 171, 32, 32)
-Big_rect = (645, 203, 32, 32)
 Jump_rect = (645, 235, 32, 32)
 shield = item.ItemElement(sprite, Shield_rect, 900, 200)
 dash = item.ItemElement(sprite, Dash_rect, 900, 200)
-mini = item.ItemElement(sprite, Mini_rect, 900, 200)
-middle = item.ItemElement(sprite, Middle_rect, 900, 200)
-big = item.ItemElement(sprite, Big_rect, 900, 200)
 jump = item.ItemElement(sprite, Jump_rect, 900, 200)
 
 items.addItem(shield)
 items.addItem(dash)
 items.addItem(jump)
-
-# 게임 모드 설정 함수
-def Mode_to_Normal() : # 무한 모드 설정
-  global mode
-  mode = 'normal'
-def Mode_to_Stage() : #스테이지 모드 설정
-  global mode
-  mode = 'stage'
-def Mode_to_race() : # 경쟁 모드 설정
-  global mode
-  mode = 'race'
-
-#화면 전환 함수
-def To_main():
-  global state
-  state = 'in_main'
-
-def To_EXIT():
-  pygame.quit()
-
-def To_Ranking():
-  global state
-  state = 'in_rank'
-
-def To_Setting():
-  return 'gamerun'
-
-def To_Run():
-  global state, mode
-  if mode == 'normal':
-    state ='in_game'
-  elif mode == 'stage':
-    print("미구현")
-  elif mode == 'race':
-    print("미구현")
-
 
 sound_jump_path = os.path.join(BASEDIR, "sound", "press.wav")
 sound_hit_path = os.path.join(BASEDIR, "sound", "hit.wav")

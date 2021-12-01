@@ -22,20 +22,6 @@ import gameover
 import main
 
 class element:
-    scores = 0
-    gravity = 5
-    time1 = time.time()
-    velocidade = 100
-    game_speed = 1.2
-    game_over = False
-    isRetry = False
-    Shield = False
-    Dash   = False
-    Dash_Target_Score = 0
-    JumpTwice = False
-    Jump_Target_Score = 0
-    isJump = 0
-    now_speed = game_speed
     name = ""
 
 class MainMenu:
@@ -78,12 +64,12 @@ class MainMenu:
                     sys.exit()
             #player_rect = pygame.Rect(dinosour.character.player.x + 4, dinosour.character.player.y + 10, 42, 50)
             #pygame.draw.rect(screen, LTGRAY, player_rect)
-            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
+            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.early_Y))
             name = gui.font.render(f'name : {element.name}', False, BLACK)
-            gui.screen.blit(name, (dinosour.character.player.x - 60, dinosour.character.player.y - 40))
+            gui.screen.blit(name, (dinosour.character.player.x - 60, dinosour.character.player.early_Y - 40))
             rename = gui.font.render(f'Rename?', False, BLACK)
             if(element.name != ""):
-                gui.screen.blit(rename, (dinosour.character.player.x - 25, dinosour.character.player.y +50))
+                gui.screen.blit(rename, (dinosour.character.player.x - 25, dinosour.character.player.early_Y +50))
             pygame.display.update()
 
 class inputName():
@@ -96,7 +82,7 @@ class inputName():
             surface.fill((255, 255, 255))
             screen.blit(surface, (0, 0))
             terrain_obj.move(screen, 0.6, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
-            screen.blit(dinosour.character.player.update_surface(), (380, dinosour.character.player.y))
+            screen.blit(dinosour.character.player.update_surface(), (380, dinosour.character.player.early_Y))
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
@@ -193,15 +179,29 @@ class Ranking:
                     user_dino.append(rex)
                 else:
                     if(dinos[i] == "rex"):
-                        user_dino.append(rex)
+                        user_dino.append(rexs[i])
                     if(dinos[i] == "paki"):
-                        user_dino.append(paki)
+                        user_dino.append(pakis[i])
                     if(dinos[i] == "terzi"):
-                        user_dino.append(terzi)  
+                        user_dino.append(terzis[i])  
 
-            screen.blit(user_dino[0].player.update_surface(), (375, 185))
-            screen.blit(user_dino[1].player.update_surface(), (227, 231))
-            screen.blit(user_dino[2].player.update_surface(), (523, 231))
+            if(user_dino[0].type == "rex"):
+                y = 185
+            else:
+                y = dinosour.character.player.early_Y - 77
+            screen.blit(user_dino[0].player.update_surface(), (375, y))
+
+            if(user_dino[1].type == "rex"):
+                y = 231
+            else:
+                y = dinosour.character.player.early_Y-18
+            screen.blit(user_dino[1].player.update_surface(), (227, y))
+
+            if(user_dino[2].type == "rex"):
+                y = 231
+            else:
+                y = dinosour.character.player.early_Y-18
+            screen.blit(user_dino[2].player.update_surface(), (523, y))
 
             pygame.display.update()
 

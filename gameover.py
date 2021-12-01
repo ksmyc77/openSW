@@ -36,8 +36,7 @@ class GameOver:
         cactus_obj.drawAll(screen)
         terrain_obj.drawAll(screen)
         bird_obj.drawAll(screen)
-        #screen.blit(dinosour.over, (rex.player.x, 245))
-        screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, 250))
+        screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.early_Y))
         gui.display_game_over()
         gui.display_game_retry()
 
@@ -45,13 +44,6 @@ class GameOver:
         GameOver.init()
         #sound_finish.play()
         dinosour.setDeath()
-        #with open(settings.game_mode + "Scores.txt", "a") as f:
-        #    f.write(str(game.element.name) + " ")
-        #    f.write(str(GameOver.result_score) + " ")
-        #    f.write(str(1) + " ")
-        #    f.write(str(dinosour.dino) + "\n")
-        #    f.close()
-        #sound_finish.play()
         GameOver.store_result()
         GameOver.calculate_result()
         while True:
@@ -64,11 +56,6 @@ class GameOver:
             pygame.draw.rect(screen, LTGRAY, over)
             GameOver.display_result()
 
-            #exit = pygame.Rect(640, 270, 53, 40)
-            #retry = pygame.Rect(110, 260, 45, 48)
-            #pygame.draw.rect(screen, LTGRAY, exit)
-            #pygame.draw.rect(screen, DKGRAY, retry)
-
             if GameOver.result_state == True:
                 textsurface_retry = gui.font.render(f'Retry', False ,(0,0,0))
                 gui.screen.blit(textsurface_retry, (90, 300))
@@ -76,7 +63,7 @@ class GameOver:
                 gui.screen.blit(textsurface_retry, (640, 300))
             terrain_obj.drawAll(screen)
             #screen.blit(dinosour.over, (dinosour.character.player.x, 245))
-            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, 250))
+            screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.early_Y))
             screen.blit(cactus, (rex.player.x + 550, 268))
             gui.display_game_over()
             for event in pygame.event.get():
@@ -168,7 +155,6 @@ class GameOver:
         delay(GameOver.time_delay)
         if(GameOver.score < GameOver.result_score):
             if((GameOver.result_score - GameOver.score) / 100 > 1):
-                #print((GameOver.result_score - GameOver.score) / 100)
                 GameOver.score += 100
             elif((GameOver.result_score - GameOver.score) / 50 > 1):
                 GameOver.score += 50

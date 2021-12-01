@@ -66,20 +66,3 @@ class RGB:
 
     def setColor(self, r, g, b, a):
         self.rgb = (r, g, b, a)
-#
-# class Page :
-#     def __init__(self, screen):
-#         self.screen = screen
-#
-#     def show_page(self) :
-#         pass
-#
-#
-# class LoginPage(Page) :
-#     def __init__(self, button):
-#         self.button = button
-#
-#     def show_page(self):
-#         self.screen.fill(settings.WHITE)
-#         self.screen.blit(self.button , (0 , 0))
-#

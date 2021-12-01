@@ -4,21 +4,11 @@ Dino Runner Clone
 from os import SEEK_SET
 import sys
 import time
-from typing import Tuple
-
-from pygame import mouse
-from pygame import mixer
 from pygame.display import get_window_size
-
 import settings
 from settings import *
 from display import *
-import button
-from button import BtnClass
-
-
 import gameover
-import main
 
 # 변수 설정
 class element:
@@ -34,10 +24,6 @@ class element:
 
 class GameRun:
     def gameRun():
-        skyR = 255
-        skyG = 255
-        skyB = 255
-        skycolor = RGB(skyR, skyG, skyB, 255)
         GameRun.init()
         # 4. 메인 이벤트
         while True:
@@ -54,34 +40,43 @@ class GameRun:
                     if event.type == pygame.KEYDOWN:
                         # 윗 방향키도 점프 추가
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
-                            if dinosour.character.player.y >= 250:
+                            if dinosour.character.player.y >= dinosour.character.player.early_Y:
                                 sound_jump.play()
                                 element.time1 = time.time()
                                 element.velocidade = -45  # 점프 높이 설정
-                                dinosour.character.player.y = 250
+                                dinosour.character.player.y = dinosour.character.player.early_Y
                                 element.gravity = 10
+                                element.isJump = True
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setSlide()
                             element.isSlide = True
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setRun()
+                            if dinosour.character.player.y == dinosour.slide.player.early_Y:
+                                dinosour.character.player.y = dinosour.character.player.early_Y
                             element.isSlide = False
             t = time.time() - element.time1
-            if element.velocidade < 100 and dinosour.character.player.y <= 250:
+            if element.velocidade < 100 and dinosour.character.player.y <= dinosour.character.player.early_Y:
                 if element.velocidade > 0:
                     element.gravity = 5
                 dinosour.character.player.y += (int(element.velocidade * t))
                 element.velocidade += element.gravity * t
-            if dinosour.character.player.y > 250:
-                dinosour.character.player.y = 250
+            if dinosour.character.player.y > dinosour.character.player.early_Y:
+                dinosour.character.player.y = dinosour.character.player.early_Y
 
             if(element.isSlide == False):
-                player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 10, 26, 50)
+                if dinosour.dino == "rex":
+                    player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 10, 26, 50)
+                else:
+                    player_rect = pygame.Rect(dinosour.character.player.x +2, dinosour.character.player.y, 38, 43)
             else:
-                player_rect = pygame.Rect(dinosour.character.player.x + 8, dinosour.character.player.y + 28, 26, 26)
+                if dinosour.dino == "rex":
+                    player_rect = pygame.Rect(dinosour.character.player.x + 10, dinosour.character.player.y + 28, 26, 26)
+                else:
+                    player_rect = pygame.Rect(dinosour.character.player.x + 5, dinosour.character.player.y + 28, 50, 22)
             # 4-4. 그리기
-            surface.fill(skycolor.getColor())
+            surface.fill(WHITE)
             screen.blit(surface, (0, 0))
             gui.display_score(element.scores)
 
@@ -110,16 +105,6 @@ class GameRun:
                 #game_speed = 0
                 dinosour.setDeath()
                 gameover.GameOver.over()
-                
-            #100점 기준 배경 변경
-            #if (scores % 400 == 0):
-            #    skycolor.setColor(255, 255, 255, 255)
-            #elif (scores % 400 == 100):
-            #    skycolor.setColor(241, 95, 95, 255)
-            #elif (scores % 400 == 200):
-            #    skycolor.setColor(53, 53, 53, 255)
-            #elif (scores % 400 == 300):
-            #    skycolor.setColor(165, 102, 255, 255)
 
             #400점 기준 속력 상승
             if (element.scores % 400 == 1):
@@ -156,9 +141,9 @@ class GameRun:
         element.isRetry = False
         element.isJump = 0
         element.isSlide = False
-        dinosour.run.player.y = 250
-        dinosour.slide.player.y = 250
-        dinosour.death.player.y = 250
+        dinosour.run.player.y = dinosour.character.player.early_Y
+        dinosour.slide.player.y = dinosour.character.player.early_Y
+        dinosour.death.player.y = dinosour.character.player.early_Y
         terrain_obj.Yinit()
         cactus_obj.coord_list[0][0] = 600
         cactus_obj.coord_list[1][0] = 900
