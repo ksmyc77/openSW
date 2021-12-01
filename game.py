@@ -79,9 +79,9 @@ class MainMenu:
             #player_rect = pygame.Rect(dinosour.character.player.x + 4, dinosour.character.player.y + 10, 42, 50)
             #pygame.draw.rect(screen, LTGRAY, player_rect)
             screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
-            name = gui.font.render(f'{element.name}', False, BLACK)
-            gui.screen.blit(name, (dinosour.character.player.x, dinosour.character.player.y - 40))
-            rename = gui.font.render(f'Rename', False, BLACK)
+            name = gui.font.render(f'name : {element.name}', False, BLACK)
+            gui.screen.blit(name, (dinosour.character.player.x - 60, dinosour.character.player.y - 40))
+            rename = gui.font.render(f'Rename?', False, BLACK)
             if(element.name != ""):
                 gui.screen.blit(rename, (dinosour.character.player.x - 25, dinosour.character.player.y +50))
             pygame.display.update()
@@ -91,24 +91,32 @@ class inputName():
         if(element.name != ""):
             settings.state = "gameSetting"
             return
+        max = 5
         while True:
             surface.fill((255, 255, 255))
             screen.blit(surface, (0, 0))
+            terrain_obj.move(screen, 0.6, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
+            screen.blit(dinosour.character.player.update_surface(), (380, dinosour.character.player.y))
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
-                        element.name = element.name[:-1]
+                        element.name = element.name[0:len(element.name)-1]
+                        max += 1
                     if event.key == pygame.K_RETURN:
                         settings.state = "gameSetting"
                         return
                     else:
-                        if not event.key == pygame.K_SPACE:
+                        if not event.key == pygame.K_SPACE and not event.key == pygame.K_BACKSPACE:
+                            if(len(element.name) >= 5):
+                                break
                             element.name += event.unicode
+                            max -= 1
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            gui.display_text("Write your name and press Enter", 50, 100)       
-            gui.display_text(":" + element.name, 100, 140)
+            gui.display_text("Write your name and press Enter", 190, 20)      
+            gui.display_text(f'(max : {max})', 350, 70)   
+            gui.display_text(":" + element.name, 364, 190)
             clock.tick(60)  # 60프레임
             pygame.display.update()
 

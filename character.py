@@ -24,9 +24,10 @@ class Player:
 
     def check_collision_bird(self, player_rect, obstacle_obj, obs_dx=5, obs_dy=10):
         for coord in obstacle_obj.coord_list:
-            obstacle_rect = pygame.Rect(coord[0] + obs_dx,
+            bird_rect = pygame.Rect(coord[0] + obs_dx,
                                         coord[1] + obs_dy, 44, 22)
-            if player_rect.colliderect(obstacle_rect):
+            #pygame.draw.rect(settings.screen, settings.LTGRAY, bird_rect)
+            if player_rect.colliderect(bird_rect):
                 return True
 
     def check_collision_item(self, player_rect, item_obj, obs_dx=0, obs_dy=0):
