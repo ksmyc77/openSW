@@ -176,7 +176,7 @@ class Ranking:
             user_dino = []
             for i in range (3):
                 if(len(dinos) <= i):                   
-                    user_dino.append(rex)
+                    user_dino.append(rexs[i])
                 else:
                     if(dinos[i] == "rex"):
                         user_dino.append(rexs[i])
@@ -188,19 +188,19 @@ class Ranking:
             if(user_dino[0].type == "rex"):
                 y = 185
             else:
-                y = dinosour.character.player.early_Y - 77
+                y = dinosour.character.player.early_Y - 54
             screen.blit(user_dino[0].player.update_surface(), (375, y))
 
             if(user_dino[1].type == "rex"):
                 y = 231
             else:
-                y = dinosour.character.player.early_Y-18
+                y = dinosour.character.player.early_Y-7
             screen.blit(user_dino[1].player.update_surface(), (227, y))
 
             if(user_dino[2].type == "rex"):
                 y = 231
             else:
-                y = dinosour.character.player.early_Y-18
+                y = dinosour.character.player.early_Y-6
             screen.blit(user_dino[2].player.update_surface(), (523, y))
 
             pygame.display.update()
