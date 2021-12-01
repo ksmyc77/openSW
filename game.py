@@ -108,10 +108,6 @@ class inputName():
 
 class Ranking:
     def ranking():
-        for i in range(3):
-            rexs[i].player.y = rexs[i].player.early_Y
-            pakis[i].player.y = pakis[i].player.early_Y
-            terzis[i].player.y = terzis[i].player.early_Y
         while True:
             clock.tick(60)
             surface.fill((255, 255, 255))
