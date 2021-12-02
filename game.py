@@ -25,6 +25,28 @@ class element:
     name = ""
 
 class MainMenu:
+    def init():
+        temp = []
+        names = []
+        dinos = []
+        with open("record.txt", "r") as f:
+            text = f.read()
+            temp = text.split("\n")
+            del temp[len(temp) - 1]
+
+            if len(temp) == 0:
+                return
+            temp2 = temp[len(temp) - 1].split(" ")
+            element.name = temp2[0]
+            dino = temp2[1]
+            if(dino == "rex"):
+                dinosour.setCharacter(rex, rex_s, rex_d, "rex")
+            elif(dino == "paki"):
+                dinosour.setCharacter(paki, paki_s, paki_d, "paki")
+            elif(dino == "terzi"):
+                dinosour.setCharacter(terzi, terzi_s, terzi_d, "terzi")
+            f.close()
+    
     def mainMenu():
         while True:
             clock.tick(60)  # 60프레임
@@ -77,8 +99,9 @@ class inputName():
         if(element.name != ""):
             settings.state = "gameSetting"
             return
+        going = True
         max = 5
-        while True:
+        while going:
             surface.fill((255, 255, 255))
             screen.blit(surface, (0, 0))
             terrain_obj.move(screen, 0.6, terrain_game_speed_multi, terrain_x_limit, terrain_x_start, terrain_y_start)
@@ -90,7 +113,8 @@ class inputName():
                         max += 1
                     if event.key == pygame.K_RETURN:
                         settings.state = "gameSetting"
-                        return
+                        going = False
+                        break
                     else:
                         if not event.key == pygame.K_SPACE and not event.key == pygame.K_BACKSPACE:
                             if(len(element.name) >= 5):
@@ -105,6 +129,32 @@ class inputName():
             gui.display_text(":" + element.name, 364, 190)
             clock.tick(60)  # 60프레임
             pygame.display.update()
+
+        temp = []
+        names = []
+        dinos = []
+        with open("record.txt", "r") as f:
+            text = f.read()
+            temp = text.split("\n")
+            del temp[len(temp) - 1]
+
+            for i in range(len(temp)):
+                temp2 = temp[i].split(" ")
+                names.append(temp2[0])
+                dinos.append(str(temp2[1]))
+            f.close()
+
+        for i in range(len(names)):
+            if(names[i] == element.name):
+                dino = dinos[i]
+                if(dino == "rex"):
+                    dinosour.setCharacter(rex, rex_s, rex_d, "rex")
+                elif(dino == "paki"):
+                    dinosour.setCharacter(paki, paki_s, paki_d, "paki")
+                elif(dino == "terzi"):
+                    dinosour.setCharacter(terzi, terzi_s, terzi_d, "terzi")
+                break
+        
 
 class Ranking:
     def ranking():

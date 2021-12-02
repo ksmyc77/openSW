@@ -7,6 +7,7 @@ import loading
 import game
 
 if __name__ == '__main__':
+    game.MainMenu.init()
     while settings.state != "quit":
         if(settings.state == "gameSetting"):
             print("state : set")
