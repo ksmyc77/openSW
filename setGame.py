@@ -204,10 +204,13 @@ class SetGame:
                     location = pygame.mouse.get_pos()
                     if location[0] >= x and location[0] <= x+160 and location[1] >= y and location[1]<=y+200:
                         dinosour.setCharacter(rex, rex_s, rex_d, "rex")
+                        SetGame.record()
                     if location[0] >= x - 220 and location[0] <= x - 60 and location[1] >= y and location[1]<=y+200:
                         dinosour.setCharacter(paki, paki_s, paki_d, "paki")
+                        SetGame.record()
                     if location[0] >= x + 220 and location[0] <= x + 380 and location[1] >= y and location[1]<=y+200:
                         dinosour.setCharacter(terzi, terzi_s, terzi_d, "terzi")
+                        SetGame.record()
                     if location[0] >= 590 and location[0] <= 770 and location[1] >= 326 and location[1]<=386:
                         SetGame.set_state = "set_Mode"
                         return
@@ -230,3 +233,29 @@ class SetGame:
                     SetGame.set_stop = True
                     return
             pygame.display.update()
+
+    def record():
+        context_r = ""
+        with open("record.txt", "r") as f:
+            text = f.read().split("\n")
+            del text[len(text) - 1]
+
+            con = ""
+            same_r = False
+            for i in range(len(text)):
+                print(text[i])
+                text1 = text[i].split(" ")
+                if(game.element.name == text1[0]):
+                    con = game.element.name + " " + dinosour.dino + "\n" 
+                    same_r = True
+                else:
+                    con = text[i] + "\n"
+                context_r += con
+            f.close()
+        if same_r == False:
+            con = game.element.name + " " + dinosour.dino + "\n" 
+            context_r += con
+
+        with open("record.txt", "w") as f:
+            f.write(context_r)
+            f.close()

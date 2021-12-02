@@ -88,13 +88,39 @@ class MainMenu:
             #pygame.draw.rect(screen, LTGRAY, player_rect)
             screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.early_Y))
             name = gui.font.render(f'name : {element.name}', False, BLACK)
-            gui.screen.blit(name, (dinosour.character.player.x - 60, dinosour.character.player.early_Y - 40))
+            gui.screen.blit(name, (dinosour.character.player.x - 44, dinosour.character.player.early_Y - 60))
             rename = gui.font.render(f'Rename?', False, BLACK)
             if(element.name != ""):
                 gui.screen.blit(rename, (dinosour.character.player.x - 25, dinosour.character.player.early_Y +50))
             pygame.display.update()
 
 class inputName():
+    def record():
+        context_r = ""
+        with open("record.txt", "r") as f:
+            text = f.read().split("\n")
+            del text[len(text) - 1]
+
+            con = ""
+            same_r = False
+            for i in range(len(text)):
+                print(text[i])
+                text1 = text[i].split(" ")
+                if(element.name == text1[0]):
+                    con = element.name + " " + dinosour.dino + "\n" 
+                    same_r = True
+                else:
+                    con = text[i] + "\n"
+                context_r += con
+            f.close()
+        if same_r == False:
+            con = element.name + " " + dinosour.dino + "\n" 
+            context_r += con
+
+        with open("record.txt", "w") as f:
+            f.write(context_r)
+            f.close()
+
     def inputing():
         if(element.name != ""):
             settings.state = "gameSetting"
@@ -114,6 +140,7 @@ class inputName():
                     if event.key == pygame.K_RETURN:
                         settings.state = "gameSetting"
                         going = False
+                        inputName.record()
                         break
                     else:
                         if not event.key == pygame.K_SPACE and not event.key == pygame.K_BACKSPACE:

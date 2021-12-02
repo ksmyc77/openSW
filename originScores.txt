@@ -1,0 +1,4 @@
+mango 439.5 1 rex
+sugar 136.5 1 rex
+poki 81.0 1 terzi
+goris 50.0 1 terzi

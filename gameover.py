@@ -89,7 +89,6 @@ class GameOver:
 
     def store_result():
         context = ""
-        context_r = ""
         with open(settings.game_mode + "Scores.txt", "r") as f:
             text = f.read().split("\n")
             del text[len(text) - 1]
@@ -109,30 +108,6 @@ class GameOver:
         if same == False:
             con = game.element.name + " " + str(GameOver.result_score) + " " + str(1) + " " + dinosour.dino + "\n" 
             context += con
-        
-        with open("record.txt", "r") as f:
-            text = f.read().split("\n")
-            del text[len(text) - 1]
-
-            con = ""
-            same_r = False
-            for i in range(len(text)):
-                print(text[i])
-                text1 = text[i].split(" ")
-                if(game.element.name == text1[0]):
-                    con = game.element.name + " " + dinosour.dino + "\n" 
-                    same_r = True
-                else:
-                    con = text[i] + "\n"
-                context_r += con
-            f.close()
-        if same_r == False:
-            con = game.element.name + " " + dinosour.dino + "\n" 
-            context_r += con
-
-        with open("record.txt", "w") as f:
-            f.write(context_r)
-            f.close()
 
         with open(settings.game_mode + "Scores.txt", "w") as f:
             f.write(context)
