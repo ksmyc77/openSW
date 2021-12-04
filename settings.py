@@ -169,7 +169,7 @@ mini = item.ItemElement(sprite, Mini_rect, 900, 200)
 middle = item.ItemElement(sprite, Middle_rect, 900, 200)
 big = item.ItemElement(sprite, Big_rect, 900, 200)
 
-items.addItem(shield)
+items.addItem(shield)#
 items.addItem(dash)
 items.addItem(jump)
 items.addItem(mini)

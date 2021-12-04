@@ -21,6 +21,7 @@ class element:
     isRetry = False
     isJump = 0
     isSlide = False
+    pause = False
 
 class GameRun:
     def gameRun():
@@ -39,7 +40,7 @@ class GameRun:
                 if not element.game_over:
                     if event.type == pygame.KEYDOWN:
                         # 윗 방향키도 점프 추가
-                        if event.key == pygame.K_SPACE or event.key == pygame.K_UP:
+                        if (event.key == pygame.K_SPACE or event.key == pygame.K_UP) and element.pause is False:
                             if dinosour.character.player.y >= dinosour.character.player.early_Y:
                                 sound_jump.play()
                                 element.time1 = time.time()
@@ -50,6 +51,22 @@ class GameRun:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setSlide()
                             element.isSlide = True
+                        # pause
+                        if event.key == pygame.K_p and element.pause is False:
+                            print("p")
+                            element.game_speed = 0
+                            element.pause = True
+                        if event.key == pygame.K_ESCAPE and element.pause is True:
+                            element.game_speed = 1.2
+                            for i in range(200):
+                                clock.tick(60)
+                                if (i < 150):
+                                    gui.display_count(3 - (int)(i / 50))
+                                elif (i >= 150):
+                                    gui.display_count("GO")
+                                pygame.display.update()
+                            element.pause = False
+
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setRun()
@@ -97,8 +114,12 @@ class GameRun:
                 element.game_over = True
                 element.isRetry = True
 
-            if not element.game_over:
+            if not element.game_over and element.pause is False:
                 element.scores += 0.5  # 스코어
+
+            if element.pause is True:
+                gui.display_pause()
+
 
             if element.game_over:
                 #gui.display_game_over()
@@ -125,6 +146,7 @@ class GameRun:
         element.isRetry = False
         element.isJump = 0
         element.isSlide = False
+        element.pause = False
         dinosour.run.player.y = dinosour.character.player.early_Y
         dinosour.slide.player.y = dinosour.character.player.early_Y
         dinosour.death.player.y = dinosour.character.player.early_Y

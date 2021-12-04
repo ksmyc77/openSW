@@ -46,7 +46,7 @@ class MainMenu:
             elif(dino == "terzi"):
                 dinosour.setCharacter(terzi, terzi_s, terzi_d, "terzi")
             f.close()
-    
+
     def mainMenu():
         while True:
             clock.tick(60)  # 60프레임
@@ -124,8 +124,8 @@ class inputName():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-            gui.display_text("Write your name and press Enter", 190, 20)      
-            gui.display_text(f'(max : {max})', 350, 70)   
+            gui.display_text("Write your name and press Enter", 190, 20)
+            gui.display_text(f'(max : {max})', 350, 70)
             gui.display_text(":" + element.name, 364, 190)
             clock.tick(60)  # 60프레임
             pygame.display.update()
@@ -154,7 +154,7 @@ class inputName():
                 elif(dino == "terzi"):
                     dinosour.setCharacter(terzi, terzi_s, terzi_d, "terzi")
                 break
-        
+
 
 class Ranking:
     def ranking():
@@ -186,7 +186,7 @@ class Ranking:
             goMode_button = gui.font.render(f'[{settings.game_mode}]', False, BLACK)
             gui.screen.blit(goMode_button, (x, 330))
 
-            
+
             temp = []
             names = []
             scores = []
@@ -225,7 +225,7 @@ class Ranking:
 
             user_dino = []
             for i in range (3):
-                if(len(dinos) <= i):                   
+                if(len(dinos) <= i):
                     user_dino.append(rexs[i])
                 else:
                     if(dinos[i] == "rex"):
@@ -233,7 +233,7 @@ class Ranking:
                     if(dinos[i] == "paki"):
                         user_dino.append(pakis[i])
                     if(dinos[i] == "terzi"):
-                        user_dino.append(terzis[i])  
+                        user_dino.append(terzis[i])
 
             if(user_dino[0].type == "rex"):
                 y = 185

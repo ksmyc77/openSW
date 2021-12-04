@@ -39,6 +39,7 @@ class element:
     isJump = 0
     isSlide = False
     now_speed = game_speed
+    pause = False
 
 class GameRun:
     def gameRun():
@@ -74,6 +75,22 @@ class GameRun:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setSlide()
                             element.isSlide = True
+                            # pause
+                        if event.key == pygame.K_p and element.pause is False:
+                            print("p")
+                            element.game_speed = 0
+                            element.pause = True
+                        if event.key == pygame.K_ESCAPE and element.pause is True:
+                            element.game_speed = 1.2
+                            for i in range(200):
+                                clock.tick(60)
+                                if (i < 150):
+                                    gui.display_count(3 - (int)(i / 50))
+                                elif (i >= 150):
+                                    gui.display_count("GO")
+                                pygame.display.update()
+                            element.pause = False
+
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
                             dinosour.setRun()
@@ -115,7 +132,7 @@ class GameRun:
             bird_obj.move(screen, element.game_speed, bird_game_speed_multi + 0.8, bird_x_limit, bird_x_start, bird_y_start)
             screen.blit(dinosour.character.player.update_surface(), (dinosour.character.player.x, dinosour.character.player.y))
             # 아이템을 움직이게 설정
-            items.move(screen, element.game_speed + 0.4, 6)
+            items.move(screen, element.game_speed, 6)
             
             #캐릭터와 장애물간 충돌 
             if dinosour.character.check_collision(player_rect, cactus_obj):
@@ -147,7 +164,7 @@ class GameRun:
                 settings.state = "gameover"
                 return
 
-            if not element.game_over:
+            if not element.game_over and element.pause is False:
                 element.scores += 0.5  # 스코어
             
             # 아이템 획득 부분 및 해당 아이템 구동 부분
@@ -180,6 +197,9 @@ class GameRun:
             if element.Dash == True:
                 element.game_speed += element.game_speed/50
 
+            if element.pause is True:
+                gui.display_pause()
+
             if element.Dash == True and element.Dash_Target_Score <= element.scores:
                 element.game_speed -= element.game_speed/20
                 if(element.game_speed <= element.now_speed):
@@ -211,6 +231,7 @@ class GameRun:
         element.Jump_Target_Score = 0
         element.isJump = 0
         element.isSlide = False
+        element.pause = False
         dinosour.run.player.y = dinosour.character.player.early_Y
         dinosour.slide.player.y = dinosour.character.player.early_Y
         dinosour.death.player.y = dinosour.character.player.early_Y

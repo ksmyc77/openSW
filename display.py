@@ -9,6 +9,10 @@ class Display:
         self.screen = screen
         self.font = font
 
+    def display_pause(self):
+        textsurface_pause = self.font.render(f'Pause(press ESC to resume)', False, (0, 0, 0))
+        self.screen.blit(textsurface_pause, (200, 110))
+
     def display_game_over(self):
         textsurface_over = self.font.render(f'Game Over', False, (0, 0, 0))
         self.screen.blit(textsurface_over, (320, 30))
