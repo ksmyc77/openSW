@@ -31,9 +31,26 @@ class Display:
 
     def display_rank(self, name, score, x, y):
         charName = self.font.render(name, False, (0, 0, 0))
-        charScore = self.font.render(f'{score:.0f}', False, (0, 0, 0))
+        charScore = self.font.render(f'{score:.1f}', False, (0, 0, 0))
         self.screen.blit(charName, (x, y)) 
         self.screen.blit(charScore, (x, y + 32))
+
+    def display_title(self, title_u):
+        title = self.font.render(title_u, False, (0, 0, 0))
+        self.screen.blit(title, (300, 0))
+
+    def display_count(self, count):
+        pygame.draw.circle(self.screen, settings.DDKGRAY, [170, 210], 35)
+        pygame.draw.circle(self.screen, settings.DKGRAY, [170, 210], 30)
+        count_t = self.font.render(str(count), False, settings.WHITE)
+        if(count == "GO"):
+            self.screen.blit(count_t, (150, 188))
+        else:
+            self.screen.blit(count_t, (160, 190))
+
+    def display_text(self, name, x, y):
+        charName = self.font.render(name, False, (0, 0, 0))
+        self.screen.blit(charName, (x, y)) 
 
 
 class RGB:
@@ -49,20 +66,3 @@ class RGB:
 
     def setColor(self, r, g, b, a):
         self.rgb = (r, g, b, a)
-#
-# class Page :
-#     def __init__(self, screen):
-#         self.screen = screen
-#
-#     def show_page(self) :
-#         pass
-#
-#
-# class LoginPage(Page) :
-#     def __init__(self, button):
-#         self.button = button
-#
-#     def show_page(self):
-#         self.screen.fill(settings.WHITE)
-#         self.screen.blit(self.button , (0 , 0))
-#
