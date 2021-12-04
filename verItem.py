@@ -143,8 +143,9 @@ class GameRun:
             if element.game_over:
                 #gui.display_game_over()
                 #game_speed = 0
-                dinosour.setDeath()
-                gameover.GameOver.over()
+                gameover.GameOver.saveScore(element.scores)
+                settings.state = "gameover"
+                return
 
             if not element.game_over:
                 element.scores += 0.5  # 스코어
@@ -185,23 +186,6 @@ class GameRun:
                 
             # 4-5. 업데이트
             pygame.display.update()
-
-            while element.isRetry:
-                for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_y:
-                            GameRun.init()
-                            break
-                        if event.key == pygame.K_n:
-                            gameover.GameOver.saveScore(element.scores)
-                            settings.state = "gameover"
-                            return
-                        if event.key == pygame.K_ESCAPE:
-                            settings.state = "quit"
-                            return
-                    if event.type == pygame.QUIT :
-                        settings.state = "quit"
-                        return
 
     def init():
         element.scores = 0
