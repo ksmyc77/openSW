@@ -19,9 +19,11 @@ class element:
     game_speed = 1.2
     game_over = False
     isRetry = False
-    isJump = 0
+    isJump = False
     isSlide = False
     pause = False
+    temp_velocity = 0
+    temp_gravity = 0
 
 class GameRun:
     def gameRun():
@@ -31,7 +33,6 @@ class GameRun:
             # 4-1. FPS 설정
             clock.tick(60)  # 60프레임
             # 4-2. 각종 입력 감지
-            #  # 이게 메인루프 안에 있어야지만 충돌을 감지함..
             for event in pygame.event.get():
                 # 게임 종료
                 if event.type == pygame.QUIT:
@@ -52,8 +53,8 @@ class GameRun:
                             dinosour.setSlide()
                             element.isSlide = True
                         # pause
-                        if event.key == pygame.K_p and element.pause is False:
-                            print("p")
+                        if event.key == pygame.K_p and element.pause is False and element.isJump is False:
+                            print("state : paused")
                             element.game_speed = 0
                             element.pause = True
                         if event.key == pygame.K_ESCAPE and element.pause is True:
@@ -66,6 +67,7 @@ class GameRun:
                                     gui.display_count("GO")
                                 pygame.display.update()
                             element.pause = False
+                            print("state : resume")
 
                     if event.type == pygame.KEYUP:
                         if event.key == pygame.K_DOWN or event.key == pygame.K_d:
@@ -81,6 +83,7 @@ class GameRun:
                 element.velocidade += element.gravity * t
             if dinosour.character.player.y > dinosour.character.player.early_Y:
                 dinosour.character.player.y = dinosour.character.player.early_Y
+                element.isJump = False
 
             if(element.isSlide == False):
                 if dinosour.dino == "rex":
@@ -122,8 +125,6 @@ class GameRun:
 
 
             if element.game_over:
-                #gui.display_game_over()
-                #game_speed = 0
                 gameover.GameOver.saveScore(element.scores)
                 settings.state = "gameover"
                 return
@@ -131,7 +132,6 @@ class GameRun:
             #400점 기준 속력 상승
             if (element.scores % 400 == 1):
                 element.game_speed+=0.1
-                #print(game_speed)
                 
             # 4-5. 업데이트
             pygame.display.update()
@@ -144,7 +144,7 @@ class GameRun:
         element.game_speed = 1.2
         element.game_over = False
         element.isRetry = False
-        element.isJump = 0
+        element.isJump = False
         element.isSlide = False
         element.pause = False
         dinosour.run.player.y = dinosour.character.player.early_Y
