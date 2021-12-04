@@ -163,7 +163,7 @@ shield = item.ItemElement(sprite, Shield_rect, 900, 200)
 dash = item.ItemElement(sprite, Dash_rect, 900, 200)
 jump = item.ItemElement(sprite, Jump_rect, 900, 200)
 
-items.addItem(shield)
+items.addItem(shield)#
 items.addItem(dash)
 items.addItem(jump)
 
