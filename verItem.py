@@ -164,6 +164,15 @@ class GameRun:
                 if(items.item_list[items.getIndex()] == jump):
                     element.JumpTwice = True
                     element.Jump_Target_Score = element.scores + 100
+                if(items.item_list[items.getIndex()] == mini):
+                    element.scores += 10
+                    items.useItem()
+                if(items.item_list[items.getIndex()] == middle):
+                    element.scores += 50
+                    items.useItem()
+                if(items.item_list[items.getIndex()] == big):
+                    element.scores += 100
+                    items.useItem()
 
             if element.JumpTwice == True and element.Jump_Target_Score <= element.scores:
                 element.JumpTwice = False 
